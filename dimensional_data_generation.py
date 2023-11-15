@@ -20,7 +20,7 @@ class dimensional_data_generation:
         
         self.scale_dimensions()
         
-        if validate:
+        if self.validate:
             self.validation_of_samples()
         
         self.mask_samples()
@@ -42,6 +42,8 @@ class dimensional_data_generation:
         ### Other parameters
         self.N = N
         self.G = 4.3009e-3
+        self.save = True
+        self.validate = True
         
         if kwargs is not None:
             for key,value in kwargs.items():
@@ -70,8 +72,9 @@ class dimensional_data_generation:
         self.vy = self.dimensional_samples[:,4] = self.dimensionless_samples.vy / self.sqrt_a
         self.vz = self.dimensional_samples[:,5] = self.dimensionless_samples.vz / self.sqrt_a
         
-        np.savetxt(f'Data/dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
-        print('Dimensional samples saved')
+        if self.save:
+            np.savetxt(f'Data/dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
+            print('Dimensional samples saved')
         
         return 1
     
@@ -86,8 +89,9 @@ class dimensional_data_generation:
             self.dimensional_samples[3*i + 1, 3] = None
             self.dimensional_samples[3*i + 1, 4] = None
             
-        np.savetxt(f'Data/masked_dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
-        print('Masked samples saved.')
+        if self.save:    
+            np.savetxt(f'Data/masked_dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
+            print('Masked samples saved.')
         
         return 1
     
@@ -133,6 +137,12 @@ class dimensional_data_generation:
         
         print(f'Q_vir = {self.virial_ratio}')
         
+        r_min = epsilon * rK
+        sample_r_min = min(radii)
+        
+        print(f'Theory r_min = {r_min}')
+        print(f'sample r_min = {sample_r_min}')
+        
         return 1
     
 ### Generate data    
@@ -143,6 +153,5 @@ Psi = 5
 mu = 0.3
 epsilon = 0.1
 G = 4.3009e-3
-validate = True
 
-sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon)
+sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = False, validate = True)

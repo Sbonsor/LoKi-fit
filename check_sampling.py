@@ -103,20 +103,32 @@ def sample_and_verify(Psi, mu, epsilon, M, rK, N):
         contribution_to_U = -G * m**2 / separations
         
         U = U + np.sum(contribution_to_U)
+    
+    radii = np.sqrt(x**2 + y**2 + z**2)
+    U_BH = np.sum(-G*m*M_BH/radii)
+    
+    U = U + U_BH
         #print(i)
         
     return -K/U
 
 #N_values = np.logspace(np.log10(10), np.log10(100000), 10, dtype = int)
-n_reps = 5
+n_reps = 10
 Psi = 5
-mu = 0
-epsilon = 1e-6
+mu = 0.3
+epsilon = 0.1
 M = 500
 rK = 1.2
+N_values = [100,1000,10000,100000]
 N = 20000
 
 virial_ratio = sample_and_verify(Psi, mu, epsilon, M, rK, N)
+
+# ratios = []
+# for mu in mus:
+#     virial_ratio = sample_and_verify(Psi, mu, epsilon, M, rK, N)
+#     ratios.append(virial_ratio)
+
 
 # Ns = []
 # for N in N_values:
@@ -146,10 +158,6 @@ virial_ratio = sample_and_verify(Psi, mu, epsilon, M, rK, N)
 # ax2.set_ylabel('$Q_{vir}$ deviation')
 # ax2.set_xscale('log')
 # ax2.set_yscale('log')
-
-
-
-
 
 # Psi = 5
 # mu = 0

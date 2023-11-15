@@ -57,8 +57,8 @@ class dimensional_data_generation:
     
     def scale_dimensions(self):
         
-        A_hat = self.M/(self.model.M_hat * self.model.density(self.Psi) * self.rK**3)
-        sqrt_a = np.sqrt( 9/(4 * np.pi * self.G * A_hat * self.model.density(self.Psi) * self.rK**2) )
+        self.A_hat = self.M/(self.model.M_hat * self.model.density(self.Psi) * self.rK**3)
+        self.sqrt_a = np.sqrt( 9/(4 * np.pi * self.G * self.A_hat * self.model.density(self.Psi) * self.rK**2) )
         
         
         self.dimensional_samples = np.zeros((self.N, 6))
@@ -66,9 +66,9 @@ class dimensional_data_generation:
         self.x  = self.dimensional_samples[:,0] = self.dimensionless_samples.x * self.rK
         self.y  = self.dimensional_samples[:,1] = self.dimensionless_samples.y * self.rK
         self.z  = self.dimensional_samples[:,2] = self.dimensionless_samples.z * self.rK
-        self.vx = self.dimensional_samples[:,3] = self.dimensionless_samples.vx / sqrt_a
-        self.vy = self.dimensional_samples[:,4] = self.dimensionless_samples.vy / sqrt_a
-        self.vz = self.dimensional_samples[:,5] = self.dimensionless_samples.vz / sqrt_a
+        self.vx = self.dimensional_samples[:,3] = self.dimensionless_samples.vx / self.sqrt_a
+        self.vy = self.dimensional_samples[:,4] = self.dimensionless_samples.vy / self.sqrt_a
+        self.vz = self.dimensional_samples[:,5] = self.dimensionless_samples.vz / self.sqrt_a
         
         np.savetxt(f'Data/dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
         print('Dimensional samples saved')
@@ -103,8 +103,8 @@ class dimensional_data_generation:
         ax1.set_xlabel('$\hat{r}$')
         ax1.set_ylabel('Radius probability')
         
-        m = self.M/self.N
-        K_i = 0.5 * m * (self.vx**2 + self.vy**2 + self.vz**2)
+        self.m = self.M/self.N
+        K_i = 0.5 * self.m * (self.vx**2 + self.vy**2 + self.vz**2)
         self.K = np.sum(K_i)
 
         self.U = 0
@@ -119,9 +119,15 @@ class dimensional_data_generation:
             z2_array = self.z[i+1:]
             
             separations = np.sqrt((x1 - x2_array)**2 + (y1 - y2_array)**2 + (z1 - z2_array)**2)
-            contribution_to_U = -G * m**2 / separations
+            contribution_to_U = -G * self.m**2 / separations
             
             self.U = self.U + np.sum(contribution_to_U)
+            
+        radii = np.sqrt(self.x**2 + self.y**2 + self.z**2)
+        self.M_BH = self.A_hat * self.model.density(self.Psi) * self.rK**3 * self.mu
+        U_BH = np.sum(-self.G*self.m * self.M_BH/radii)
+        
+        self.U = self.U + U_BH
             
         self.virial_ratio = -self.K/self.U
         
@@ -134,8 +140,8 @@ N = 20000
 M = 500
 rK = 1.2 
 Psi = 5
-mu = 0
-epsilon = 1e-6
+mu = 0.3
+epsilon = 0.1
 G = 4.3009e-3
 validate = True
 

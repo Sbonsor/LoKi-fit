@@ -105,7 +105,7 @@ def log_likelihood_6d(data_6d,parameters,args):
     else:
         return np.sum(np.log(likelihoods))    
 
-def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsamp, prior_args, save_samples = False):
+def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, epsilon, covariance, nsamp, prior_args, save_samples = False):
 
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()

@@ -251,7 +251,7 @@ Psi_max = 9
 Psi_min = 1
 
 
-data_path = '/home/s1984454/King-Fitting/Data/'
+data_path = '/home/s1984454/LoKi-fit/Data/'
 fname = f'dimensional_samples_King_M_{M0}_rK_{rc0}_Psi_{Psi0}_mu_{mu0}_epsilon_{epsilon}_N_20000' 
  
 prior_args = np.array([M_max, M_min, rK_max, rK_min, Psi_max, Psi_min])

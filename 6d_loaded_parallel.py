@@ -234,7 +234,7 @@ class metropolis_sampling:
                 
                 if(abs(self.acceptance_rate - self.target_accept_prob) > self.accept_prob_tol):
                     
-                    self.covariance = self.covariance * self.acceptance_rate / self.target_acceptance_rate
+                    self.covariance = self.covariance * self.acceptance_rate / self.target_accept_prob
                     
                 else:
                     

@@ -16,7 +16,6 @@ from mpi4py import MPI
 class metropolis_sampling:
     
     def __init__(self, **kwargs):
-        print('got here')
         self._set_kwargs(**kwargs)
         self.comm = MPI.COMM_WORLD
         self.rank = self.comm.Get_rank()

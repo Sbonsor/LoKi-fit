@@ -214,12 +214,12 @@ class metropolis_sampling:
                 print(i)        
             self.comm.Barrier()
             
-            if(self.rank == 0):
+        if(self.rank == 0):
                 
-                self.acceptance_rate = self.accepted/(self.accepted + self.rejected)
-                print(f'Acceptance rate is {self.acceptance_rate}')
-
-                np.savetxt(f'{self.data_path}SAMPLES_parallel_{self.fname}_with_incomplete_data_and_mu.txt', self.samples)               
+            self.acceptance_rate = self.accepted/(self.accepted + self.rejected)
+            print(f'Acceptance rate is {self.acceptance_rate}')
+    
+            np.savetxt(f'{self.data_path}SAMPLES_parallel_{self.fname}_with_incomplete_data_and_mu.txt', self.samples)               
         
         
     def tune_covariance(self):

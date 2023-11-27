@@ -54,8 +54,8 @@ class metropolis_sampling:
         self.data_path = '/home/s1984454/LoKi-fit/Data/'
         #self.data_path = '/home/s1984454/Desktop/LoKi-Fit/Data/'
         self.fname = f'dimensional_samples_King_M_{500}_rK_{1.2}_Psi_{5}_mu_{0.3}_epsilon_{0.1}_N_20000'
-        self.nsamp = 10000
-        self.nsamp_tune = 2000
+        self.nsamp = 100000
+        self.nsamp_tune = 6000
         self.covariance = 0.01*np.identity(4)
         self.covariance[0,0] *= 100
         self.target_accept_prob = 0.2

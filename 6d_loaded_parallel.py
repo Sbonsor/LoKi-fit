@@ -212,7 +212,6 @@ class metropolis_sampling:
                         self.samples.append(current_parameters)
                         self.rejected += 1
                 print(i)        
-                self.comm.Barrier()
             self.comm.Barrier()
             
             if(self.rank == 0):

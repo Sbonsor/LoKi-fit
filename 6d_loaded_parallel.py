@@ -203,7 +203,6 @@ class metropolis_sampling:
                     if (np.random.rand() < acceptance_probability):
                         
                         self.samples.append(proposal_parameters)
-                        print(len(self.samples))
                         current_parameters = proposal_parameters
                         l0 = l
                         self.accepted += 1
@@ -212,8 +211,7 @@ class metropolis_sampling:
                         
                         self.samples.append(current_parameters)
                         self.rejected += 1
-                        print(len(self.samples))
-                        
+            print(i)            
             self.comm.Barrier()
             
         if(self.rank == 0):

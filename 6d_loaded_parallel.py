@@ -203,6 +203,7 @@ class metropolis_sampling:
                     if (np.random.rand() < acceptance_probability):
                         
                         self.samples.append(proposal_parameters)
+                        print(len(self.samples))
                         current_parameters = proposal_parameters
                         l0 = l
                         self.accepted += 1
@@ -211,7 +212,8 @@ class metropolis_sampling:
                         
                         self.samples.append(current_parameters)
                         self.rejected += 1
-                print(i)        
+                        print(len(self.samples))
+                        
             self.comm.Barrier()
             
         if(self.rank == 0):
@@ -220,7 +222,7 @@ class metropolis_sampling:
             print(f'Acceptance rate is {self.acceptance_rate}')
     
             np.savetxt(f'{self.data_path}SAMPLES_parallel_{self.fname}_with_incomplete_data_and_mu.txt', self.samples)               
-        
+            print(len(self.samples))
         
     def tune_covariance(self):
         

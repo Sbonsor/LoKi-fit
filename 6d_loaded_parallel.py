@@ -191,27 +191,30 @@ class metropolis_sampling:
                 
                 l = l_recv[0] + l_prior
                 
+                ### Check for a 0 likelihood...
                 if(l == -np.inf):
                     
                     acceptance_probability = 0
-                    
+                ### ...otherwise take the difference in log-likelihoods and calulcate the acceptance probability.
                 else:
                     
                     log_diff =  l - l0
                     acceptance_probability = min(1, np.exp(log_diff))
+                
+                ### Generate a random U[0,1] number, if less than acceptance probability then append to results...
+                if (np.random.rand() < acceptance_probability):
                     
-                    if (np.random.rand() < acceptance_probability):
-                        
-                        self.samples.append(proposal_parameters)
-                        current_parameters = proposal_parameters
-                        l0 = l
-                        self.accepted += 1
-                        
-                    else:
-                        
-                        self.samples.append(current_parameters)
-                        self.rejected += 1
-            print(i)            
+                    self.samples.append(proposal_parameters)
+                    current_parameters = proposal_parameters
+                    l0 = l
+                    self.accepted += 1
+                ### ...otherwise remain at the current parameter values.   
+                else:
+                    
+                    self.samples.append(current_parameters)
+                    self.rejected += 1
+                    print(i) 
+                    
             self.comm.Barrier()
             
         if(self.rank == 0):

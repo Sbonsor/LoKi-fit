@@ -87,10 +87,20 @@ class metropolis_sampling:
         Psi, a0, M, rK = parameters
         Psi_max, Psi_min, M_max, M_min, rK_max, rK_min = self.prior_args
         
-        V = 0.5 * (rK_max - rK_min) * (M_max - M_min) * (Psi_max**2 - Psi_min**2)
+        Psi_flag = (Psi >= Psi_min) and (Psi <= Psi_max)
+        a0_flag = (a0 >= 0) and (a0 <= Psi)
+        M_flag = (M >= M_min) and (M <= M_max)
+        rK_flag = (rK >= rK_min) and (rK <= rK_max)
         
-        log_prior = np.log(1/V)
-        
+        if (Psi_flag and a0_flag and M_flag and rK_flag):
+            
+            V = 0.5 * (rK_max - rK_min) * (M_max - M_min) * (Psi_max**2 - Psi_min**2)
+            log_prior = np.log(1/V)
+            
+        else:
+            
+            log_prior = -np.inf
+            
         return log_prior
     
     def log_likelihood_6d(self, parameters):

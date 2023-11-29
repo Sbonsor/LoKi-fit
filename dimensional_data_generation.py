@@ -9,7 +9,9 @@ from LoKi import LoKi
 from LoKi_samp import LoKi_samp
 import numpy as np
 import matplotlib.pyplot as plt
-np.random.seed(seed = 12009837)
+from scipy.interpolate import interp1d
+from scipy.optimize import root_scalar
+
 class dimensional_data_generation:
     
     def __init__(self, N, M, rK, Psi, mu, epsilon, **kwargs):
@@ -53,7 +55,44 @@ class dimensional_data_generation:
         
         self.model =  LoKi(self.mu, self.epsilon, self.Psi)
         
-        self.dimensionless_samples = LoKi_samp(self.model, N = self.N, plot = False, scale_nbody = False)
+        self.dimensionless_samples = []
+        
+        while (len(self.dimensionless_samples) < self.N):
+            
+            current_sample = LoKi_samp(self.model, N = 1, plot = False, scale_nbody = False)
+            
+            xhat = current_sample.x[0]
+            yhat = current_sample.y[0]
+            zhat = current_sample.z[0]
+            vxhat = current_sample.vx[0]
+            vyhat = current_sample.vy[0]
+            vzhat = current_sample.vz[0]
+
+            v_t = np.sqrt(vxhat**2 + vyhat**2)
+            vhat = np.sqrt(vxhat**2 + vyhat**2 + vzhat**2)
+            rhat = np.sqrt(xhat**2 + yhat**2 + zhat**2)
+            psi_interp = interp1d(self.model.rhat, self.model.psi, fill_value = (self.Psi, 0), bounds_error = False)
+
+            Jhat = v_t * rhat
+            Ehat = np.clip(0.5* vhat**2 - psi_interp(rhat), a_max = 0, a_min = None)
+
+            def f(r, Ehat, Jhat, psi_interp):
+                
+                function = 2*(Ehat + psi_interp(r)) - (Jhat/r)**2
+                
+                return function
+
+            r_grid = np.linspace(1e-4, self.model.rhat[-1], 10000)
+            function = 2*(Ehat + psi_interp(r_grid)) - (Jhat/r_grid)**2
+            upper_bracket = r_grid[np.where(function == max(function))[0][0]]
+
+            r_p = root_scalar(f = f, args = (Ehat, Jhat, psi_interp), bracket = [1e-4, upper_bracket], method = 'bisect').root
+
+            if (r_p >= self.epsilon):
+                self.dimensionless_samples.append([xhat, yhat, zhat, vxhat, vyhat, vzhat])
+                #print(len(self.dimensionless_samples))
+        
+        self.dimensionless_samples = np.array(self.dimensionless_samples)
         
         return 1
     
@@ -65,12 +104,12 @@ class dimensional_data_generation:
         
         self.dimensional_samples = np.zeros((self.N, 6))
         
-        self.x  = self.dimensional_samples[:,0] = self.dimensionless_samples.x * self.rK
-        self.y  = self.dimensional_samples[:,1] = self.dimensionless_samples.y * self.rK
-        self.z  = self.dimensional_samples[:,2] = self.dimensionless_samples.z * self.rK
-        self.vx = self.dimensional_samples[:,3] = self.dimensionless_samples.vx / self.sqrt_a
-        self.vy = self.dimensional_samples[:,4] = self.dimensionless_samples.vy / self.sqrt_a
-        self.vz = self.dimensional_samples[:,5] = self.dimensionless_samples.vz / self.sqrt_a
+        self.x  = self.dimensional_samples[:,0] = self.dimensionless_samples[:,0] * self.rK
+        self.y  = self.dimensional_samples[:,1] = self.dimensionless_samples[:,1] * self.rK
+        self.z  = self.dimensional_samples[:,2] = self.dimensionless_samples[:,2] * self.rK
+        self.vx = self.dimensional_samples[:,3] = self.dimensionless_samples[:,3] / self.sqrt_a
+        self.vy = self.dimensional_samples[:,4] = self.dimensionless_samples[:,4] / self.sqrt_a
+        self.vz = self.dimensional_samples[:,5] = self.dimensionless_samples[:,5] / self.sqrt_a
         
         if self.save:
             np.savetxt(f'Data/dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
@@ -101,11 +140,11 @@ class dimensional_data_generation:
             integrand = r**2*rho
             return np.trapz(y = integrand, x = r)
         
-        fig1,ax1 = plt.subplots(1,1)
-        ax1.plot(self.model.rhat,self.model.rhat**2 * self.model.rho_hat/density_normalisation(self.model.rhat,self.model.rho_hat))
-        ax1.hist(np.sqrt(self.dimensionless_samples.x**2 + self.dimensionless_samples.y**2 + self.dimensionless_samples.z**2), density = True, bins = 100)
-        ax1.set_xlabel('$\hat{r}$')
-        ax1.set_ylabel('Radius probability')
+        # fig1,ax1 = plt.subplots(1,1)
+        # ax1.plot(self.model.rhat,self.model.rhat**2 * self.model.rho_hat/density_normalisation(self.model.rhat,self.model.rho_hat))
+        # ax1.hist(np.sqrt(self.dimensionless_samples[:,0]**2 + self.dimensionless_samples[:,1]**2 + self.dimensionless_samples[:,2]**2), density = True, bins = 100)
+        # ax1.set_xlabel('$\hat{r}$')
+        # ax1.set_ylabel('Radius probability')
         
         self.m = self.M/self.N
         K_i = 0.5 * self.m * (self.vx**2 + self.vy**2 + self.vz**2)
@@ -123,7 +162,7 @@ class dimensional_data_generation:
             z2_array = self.z[i+1:]
             
             separations = np.sqrt((x1 - x2_array)**2 + (y1 - y2_array)**2 + (z1 - z2_array)**2)
-            contribution_to_U = -G * self.m**2 / separations
+            contribution_to_U = -self.G * self.m**2 / separations
             
             self.U = self.U + np.sum(contribution_to_U)
             
@@ -137,7 +176,7 @@ class dimensional_data_generation:
         
         print(f'Q_vir = {self.virial_ratio}')
         
-        r_min = epsilon * rK
+        r_min = self.epsilon * self.rK
         sample_r_min = min(radii)
         
         print(f'Theory r_min = {r_min}')
@@ -154,4 +193,4 @@ mu = 0.3
 epsilon = 0.1
 G = 4.3009e-3
 
-sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = False, validate = True)
+sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = True, validate = True)

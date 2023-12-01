@@ -302,9 +302,10 @@ def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsam
     assert l0_prior != -np.inf
     
     l_6d = log_likelihood_6d(data_6d, current_parameters, args)
-    l_5d = log_likelihood_5d(data_5d, current_parameters, args, npoints)
-    l_3d = log_likelihood_3d(data_3d, current_parameters, args, npoints)
-    
+    #l_5d = log_likelihood_5d(data_5d, current_parameters, args, npoints)
+    #l_3d = log_likelihood_3d(data_3d, current_parameters, args, npoints)
+    l_5d = 0
+    l_3d = 0
     
     l_send = np.array([l_3d, l_5d, l_6d])
     
@@ -333,8 +334,10 @@ def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsam
             args = determine_model_Ae_a(proposal_parameters)
             
             l_6d = log_likelihood_6d(data_6d, proposal_parameters, args)
-            l_5d = log_likelihood_5d(data_5d, proposal_parameters, args, npoints)
-            l_3d = log_likelihood_3d(data_3d, proposal_parameters, args, npoints)
+            #l_5d = log_likelihood_5d(data_5d, proposal_parameters, args, npoints)
+            #l_3d = log_likelihood_3d(data_3d, proposal_parameters, args, npoints)
+            l_5d = 0
+            l_3d = 0
             
             l_send = np.array([l_3d, l_5d, l_6d])
         

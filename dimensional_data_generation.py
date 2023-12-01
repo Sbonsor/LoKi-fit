@@ -140,11 +140,11 @@ class dimensional_data_generation:
             integrand = r**2*rho
             return np.trapz(y = integrand, x = r)
         
-        # fig1,ax1 = plt.subplots(1,1)
-        # ax1.plot(self.model.rhat,self.model.rhat**2 * self.model.rho_hat/density_normalisation(self.model.rhat,self.model.rho_hat))
-        # ax1.hist(np.sqrt(self.dimensionless_samples[:,0]**2 + self.dimensionless_samples[:,1]**2 + self.dimensionless_samples[:,2]**2), density = True, bins = 100)
-        # ax1.set_xlabel('$\hat{r}$')
-        # ax1.set_ylabel('Radius probability')
+        fig1,ax1 = plt.subplots(1,1)
+        ax1.plot(self.model.rhat,self.model.rhat**2 * self.model.rho_hat/density_normalisation(self.model.rhat,self.model.rho_hat))
+        ax1.hist(np.sqrt(self.dimensionless_samples[:,0]**2 + self.dimensionless_samples[:,1]**2 + self.dimensionless_samples[:,2]**2), density = True, bins = 100)
+        ax1.set_xlabel('$\hat{r}$')
+        ax1.set_ylabel('Radius probability')
         
         self.m = self.M/self.N
         K_i = 0.5 * self.m * (self.vx**2 + self.vy**2 + self.vz**2)

@@ -339,7 +339,7 @@ def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsam
             #l_3d = log_likelihood_3d(data_3d, proposal_parameters, args, npoints)
             l_5d = 0
             l_3d = 0
-            print(proposal_parameters)
+            #print(i)
             
             l_send = np.array([l_3d, l_5d, l_6d])
         

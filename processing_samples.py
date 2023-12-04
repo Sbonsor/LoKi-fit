@@ -35,9 +35,9 @@ samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.
 burn_in = 0
 stack_samp = np.stack(samples[burn_in:,:])
 
-fig = corner.corner(stack_samp, labels = ['$\\Psi$','$a_0$','$M$', '$r_k$'], quantiles = [0.5])
+#fig = corner.corner(stack_samp, labels = ['$\\Psi$','$a_0$','$M$', '$r_k$'], quantiles = [0.5])
 # plt.savefig('Data/FIG_parallel_' + fname)
-# fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$', '$\\epsilon$'], quantiles = [0.5])
+fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$', '$\\epsilon$'], quantiles = [0.5])
 # plt.savefig('Data/FIG_parallel_' + fname + '_with_incomplete_data.png')
 
 # M_samples = samples[:,0]

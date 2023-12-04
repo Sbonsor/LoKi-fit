@@ -77,7 +77,7 @@ def generate_observed_from_true(data_path, fname):
     observed_data[:,4] = vys
     observed_data[:,5] = vzs
     
-    return observed_data
+    return data
 
 def split_data(observed_data):
     
@@ -295,6 +295,7 @@ def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsam
     data = comm.scatter(data,root = 0)
     
     data_3d, data_5d, data_6d = split_data(data)
+    print(len(data_6d))
     
     
     l0_prior = log_prior(current_parameters,prior_args)
@@ -319,7 +320,7 @@ def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsam
         
         if(rank == 0):
             
-            proposal_parameters = current_parameters + np.random.multivariate_normal(mean = [0,0,0,0,0],cov = covariance)            
+            proposal_parameters = current_parameters + np.random.multivariate_normal(mean = [0,0,0,0,0], cov = covariance)            
             
         proposal_parameters =  comm.bcast(proposal_parameters, root = 0)
         
@@ -338,6 +339,7 @@ def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsam
             #l_3d = log_likelihood_3d(data_3d, proposal_parameters, args, npoints)
             l_5d = 0
             l_3d = 0
+            print(proposal_parameters)
             
             l_send = np.array([l_3d, l_5d, l_6d])
         
@@ -363,7 +365,7 @@ def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsam
             else:
                 samples.append(current_parameters)
                 rejected +=1
-            print(i)
+            
                 
         comm.Barrier()
     
@@ -429,7 +431,7 @@ fname = f'dimensional_samples_King_M_{M0}_rK_{rc0}_Psi_{Psi0}_mu_{mu0}_epsilon_{
 covariance = 0.01*np.identity(5)
 covariance[0,0] *= 100
 covariance[4,4] = 0 # Remain at constant epsilon
-nsamp = 200000
+nsamp = 100000
 npoints = 100
 nsamp_tune = 10000
 

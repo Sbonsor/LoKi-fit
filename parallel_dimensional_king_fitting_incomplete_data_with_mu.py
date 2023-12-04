@@ -340,16 +340,14 @@ def metropolis_sampling(data_path, fname, M0_rc0_Psi0_mu0_eps0, covariance, nsam
             l_5d = 0
             l_3d = 0
             
-            if(i%1000 == 0):
-                print(i)
-            
             l_send = np.array([l_3d, l_5d, l_6d])
         
         comm.Reduce(l_send, l_recv, MPI.SUM, root = 0)
     
         if(rank == 0):
             l = np.sum(l_recv) + l_prior
-            #print(l)
+            if(i%1000 == 0):
+                print(i)
             
             if (l == -np.inf):
                 acceptance_prob = 0

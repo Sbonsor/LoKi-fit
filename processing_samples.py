@@ -32,13 +32,16 @@ samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.
 #samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_20000_with_incomplete_data_and_mu.txt')
 
 
-burn_in = 0
-stack_samp = np.stack(samples[burn_in:,:])
+burn_in = 50000
+#stack_samp = np.stack(samples[burn_in:,:])
+stack_samp = np.stack(samples[burn_in:, 0:4])
 
 #fig = corner.corner(stack_samp, labels = ['$\\Psi$','$a_0$','$M$', '$r_k$'], quantiles = [0.5])
 # plt.savefig('Data/FIG_parallel_' + fname)
-fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$', '$\\epsilon$'], quantiles = [0.5])
+#fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$', '$\\epsilon$'], quantiles = [0.5])
 # plt.savefig('Data/FIG_parallel_' + fname + '_with_incomplete_data.png')
+
+fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$'], quantiles = [0.5])
 
 # M_samples = samples[:,0]
 # rc_samples = samples[:,1]

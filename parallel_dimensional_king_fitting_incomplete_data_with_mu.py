@@ -431,7 +431,7 @@ fname = f'dimensional_samples_King_M_{M0}_rK_{rc0}_Psi_{Psi0}_mu_{mu0}_epsilon_{
 covariance = 0.01*np.identity(5)
 covariance[0,0] *= 100
 covariance[4,4] = 0 # Remain at constant epsilon
-nsamp = 100000
+nsamp = 200000
 npoints = 100
 nsamp_tune = 10000
 

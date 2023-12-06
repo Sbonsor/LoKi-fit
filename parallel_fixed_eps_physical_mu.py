@@ -46,11 +46,12 @@ def log_prior(x, prior_args):
     Psi = x[3]
     epsilon = x[4]
     
-    a = (6* np.sqrt(2) * Ae / (G * rho_hat(Psi) * rK**2))**2
-    A_hat = (8 * np.sqrt(2) * np.pi * Ae) / (3 * a**(3/2))
-    mu = M_BH/(rK**3 * A_hat * rho_hat(Psi))
-    
-    mu = M_BH /(rK**3 * rho_hat(Psi))
+    a = (32 * np.sqrt(2) * np.pi**2 * G * rho_hat(Psi) * rK**2 * Ae / 27)**2
+
+    A_hat = 8 * np.sqrt(2) * np.pi * Ae / (3 * a**(3/2))
+
+    mu = M_BH /(A_hat * rho_hat(Psi) * rK**3)
+        
     a0 = Psi - (9*mu)/(4*np.pi*epsilon)
     
     Ae_flag = (Ae >= Ae_min and Ae <= Ae_max)
@@ -304,14 +305,17 @@ def calculate_true_quantities(M, rK, Psi, mu, epsilon):
     true_model = LoKi(mu, epsilon, Psi, pot_only = True)
     Mhat = np.trapz(y = 4*np.pi*true_model.rhat**2 * true_model.density(true_model.psi) / true_model.density(true_model.Psi) , x = true_model.rhat)
     
-    a = (9 * rK * Mhat)/(4*np.pi*G*M)
-    Ae = (3 * a**(3/2) * M)/(8 * np.sqrt(2) * np.pi * true_model.density(Psi) * rK**3 * Mhat)
-    
-    M_scale = M/Mhat
-    
-    M_BH = mu * M_scale
-    
+    A_hat = M/(Mhat * rho_hat(Psi)*rK**3)
+
+    a = 9/(4 * np.pi * G * A_hat * rho_hat(Psi) * rK**2)
+
+    Ae = 3 * a**(3/2) * A_hat / (8 * np.sqrt(2) * np.pi)
+
+    M_BH = mu * A_hat * rho_hat(Psi) * rK**3
+
     return Ae, M_BH
+
+G = 4.3009e-3
 
 M0 = 500
 rK0 = 1.2
@@ -326,31 +330,30 @@ rK_min = 0.5
 Psi_max = 9
 Psi_min = 1
 
-
 Ae0, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 
-prior_args = np.array([Ae_max, Ae_min, rK_max, rK_min, Psi_max, Psi_min])
+# prior_args = np.array([Ae_max, Ae_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([Ae0, rK0, M_BH0, Psi0, eps0])
+# initial_parameters =  np.array([Ae0, rK0, M_BH0, Psi0, eps0])
 
-#data_path = '/home/s1984454/Desktop/King_fitting/Data/'
-data_path = '/home/s1984454/LoKi-fit/Data/'
-fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_20000' 
-covariance = 0.01*np.identity(5)
-covariance[0,0] *= 0.1
-covariance[1,1] *= 1
-covariance[2,2] *= 1
-covariance[3,3] *= 1
-covariance[4,4] = 0 # Remain at constant epsilon
-nsamp = 100000
-nsamp_tune = 10000
+# #data_path = '/home/s1984454/Desktop/King_fitting/Data/'
+# data_path = '/home/s1984454/LoKi-fit/Data/'
+# fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_20000' 
+# covariance = 0.01*np.identity(5)
+# covariance[0,0] *= 0.1
+# covariance[1,1] *= 1
+# covariance[2,2] *= 1
+# covariance[3,3] *= 1
+# covariance[4,4] = 0 # Remain at constant epsilon
+# nsamp = 100000
+# nsamp_tune = 10000
 
-target_acceptance_rate = 0.2
-acceptance_rate_tol = 0.02
+# target_acceptance_rate = 0.2
+# acceptance_rate_tol = 0.02
 
-covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol)
+# covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol)
 
-acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = True)
+# acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = True)
 
 
 

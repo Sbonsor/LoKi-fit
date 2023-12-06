@@ -323,8 +323,8 @@ Psi0 = 5
 mu0 = 0.3
 eps0 = 0.1
 
-Ae_max = 0.01
-Ae_min = 1
+Ae_max = 1
+Ae_min = 0.01
 rK_max = 2
 rK_min = 0.5
 Psi_max = 9
@@ -335,7 +335,7 @@ Ae0, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 prior_args = np.array([Ae_max, Ae_min, rK_max, rK_min, Psi_max, Psi_min])
 
 initial_parameters =  np.array([Ae0, rK0, M_BH0, Psi0, eps0])
-
+ 
 #data_path = '/home/s1984454/Desktop/King_fitting/Data/'
 data_path = '/home/s1984454/LoKi-fit/Data/'
 fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_20000' 

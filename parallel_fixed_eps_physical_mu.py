@@ -121,9 +121,9 @@ def log_likelihood_6d(data_6d, parameters):
     epsilon = parameters[4]
     G = 4.3009e-3
     
-    a = (6* np.sqrt(2) * Ae / (G * rho_hat(Psi) * rK**2))**2
-    A_hat = (8 * np.sqrt(2) * np.pi * Ae) / (3 * a**(3/2))
-    mu = M_BH/(rK**3 * A_hat * rho_hat(Psi))
+    a = (32 * np.sqrt(2) * np.pi**2 * G * rho_hat(Psi) * rK**2 * Ae / 27)**2
+    A_hat = 8 * np.sqrt(2) * np.pi * Ae / (3 * a**(3/2))
+    mu = M_BH /(A_hat * rho_hat(Psi) * rK**3)
     
     model = model = LoKi(mu, epsilon, Psi, pot_only = True)
     

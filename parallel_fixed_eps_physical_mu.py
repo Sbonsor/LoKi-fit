@@ -267,7 +267,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
         
         if(save_samples):
             
-            np.savetxt(data_path + 'SAMPLES_parallel_'+fname+'_with_incomplete_data_and_mu.txt', samples)
+            np.savetxt(data_path + 'SAMPLES_parallel_'+fname+'_fixed_eps_physical_mu.txt', samples)
             
         return acceptance_rate
     

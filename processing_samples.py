@@ -28,11 +28,13 @@ def means_covariace_information_matrix(samples):
     
     return means, cov_matrix, information_matrix
 
-samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_with_incomplete_data_and_mu.txt')
+#samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_with_incomplete_data_and_mu.txt')
+samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_fixed_eps_physical_mu.txt')
+#SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_fixed_eps_physical_mu
 #samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_20000_with_incomplete_data_and_mu.txt')
 
 
-burn_in = 50000
+burn_in = 25000
 #stack_samp = np.stack(samples[burn_in:,:])
 stack_samp = np.stack(samples[burn_in:, 0:4])
 
@@ -41,7 +43,10 @@ stack_samp = np.stack(samples[burn_in:, 0:4])
 #fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$', '$\\epsilon$'], quantiles = [0.5])
 # plt.savefig('Data/FIG_parallel_' + fname + '_with_incomplete_data.png')
 
-fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$'], quantiles = [0.5])
+#fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$'], quantiles = [0.5])
+
+fig = corner.corner(stack_samp, labels = ['$Ae$','$r_K$','$M_{BH}$', '$\\Psi$'], quantiles = [0.5])
+
 
 # M_samples = samples[:,0]
 # rc_samples = samples[:,1]

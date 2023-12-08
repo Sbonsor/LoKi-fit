@@ -429,6 +429,7 @@ data_path = '/home/s1984454/LoKi-fit/Data/'
 fname = f'dimensional_samples_King_M_{M0}_rK_{rc0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_20000' 
 covariance = 0.01*np.identity(5)
 covariance[0,0] *= 100
+covariance[3,3] = 0
 covariance[4,4] = 0 # Remain at constant epsilon
 nsamp = 200000
 npoints = 100

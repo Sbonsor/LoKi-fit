@@ -326,7 +326,7 @@ rho00, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 
 prior_args = np.array([rho0_max, rho0_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) + np.array([-3, -0.2, -2, 0])
+initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) + np.array([-3, -0.2, 1, -2,  0])
  
 #data_path = '/home/s1984454/Desktop/King_fitting/Data/'
 data_path = '/home/s1984454/LoKi-fit/Data/'

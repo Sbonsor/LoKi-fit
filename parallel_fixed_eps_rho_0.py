@@ -49,12 +49,17 @@ def log_prior(x, prior_args):
     mu = M_BH /(rho_0* rK**3)
        
     a0 = Psi - (9*mu)/(4*np.pi*epsilon)
-    
+    # print(f'a0 = {a0}')
     rho0_flag = (rho_0 >= rho0_min and rho_0 <= rho0_max)
     rK_flag = (rK >= rK_min and rK <= rK_max)
     Psi_flag = (Psi >= Psi_min and Psi <= Psi_max)
     a0_flag = a0 >= 0
     M_BH_positive_flag = M_BH >= 0
+    
+    # print(f'rho flag = {rho0_flag}')
+    # print(f'rK flag = {rK_flag}')
+    # print(f'Psi flag = {Psi_flag}')
+    # print(f'a0 flag = {a0_flag}')
     
     if (rho0_flag and rK_flag and Psi_flag and a0_flag and M_BH_positive_flag):
         V = 1
@@ -326,7 +331,9 @@ rho00, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 
 prior_args = np.array([rho0_max, rho0_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) + np.array([-3, -0.2, 1, -2,  0])
+initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) + np.array([-2, 0.2, 1, 2,  0])
+
+print(log_prior(initial_parameters, prior_args))
  
 #data_path = '/home/s1984454/Desktop/King_fitting/Data/'
 data_path = '/home/s1984454/LoKi-fit/Data/'

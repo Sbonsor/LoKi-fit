@@ -344,7 +344,7 @@ covariance[1,1] *= 1
 covariance[2,2] *= 1
 covariance[3,3] *= 1
 covariance[4,4] = 0 # Remain at constant epsilon
-nsamp = 200000
+nsamp = 1000000
 nsamp_tune = 10000
 
 target_acceptance_rate = 0.2

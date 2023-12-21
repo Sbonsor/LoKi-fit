@@ -35,7 +35,7 @@ def means_covariace_information_matrix(samples):
 #samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_with_incomplete_data_and_mu.txt')
 samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_fixed_eps_rho0.txt')
 
-burn_in = 5000
+burn_in = 0
 #stack_samp = np.stack(samples[burn_in:,:])
 stack_samp = np.stack(samples[burn_in:, 0:4])
 #stack_samp = np.stack(samples[burn_in:, 0:3])

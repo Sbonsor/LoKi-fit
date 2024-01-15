@@ -33,37 +33,40 @@ def means_covariace_information_matrix(samples):
 #SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_fixed_eps_physical_mu
 #samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_20000_with_incomplete_data_and_mu.txt')
 #samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_with_incomplete_data_and_mu.txt')
-samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_fixed_eps_rho0 (1).txt')
+# samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_fixed_eps_rho0 (1).txt')
+samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_fixed_eps_rho0(2fixed).txt')
 
 
-burn_in = 20000
-# #stack_samp = np.stack(samples[burn_in:,:])
-stack_samp = np.stack(samples[burn_in:, 0:4])
-# #stack_samp = np.stack(samples[burn_in:, 0:3])
+burn_in = 10000
+# # #stack_samp = np.stack(samples[burn_in:,:])
+# stack_samp = np.stack(samples[burn_in:, 0:4])
+# # #stack_samp = np.stack(samples[burn_in:, 0:3])
+stack_samp = np.stack(samples[burn_in:, 1:4])
 
-# #fig = corner.corner(stack_samp, labels = ['$\\Psi$','$a_0$','$M$', '$r_k$'], quantiles = [0.5])
-# # plt.savefig('Data/FIG_parallel_' + fname)
-# #fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$', '$\\epsilon$'], quantiles = [0.5])
-# # plt.savefig('Data/FIG_parallel_' + fname + '_with_incomplete_data.png')
+# # #fig = corner.corner(stack_samp, labels = ['$\\Psi$','$a_0$','$M$', '$r_k$'], quantiles = [0.5])
+# # # plt.savefig('Data/FIG_parallel_' + fname)
+# # #fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$', '$\\epsilon$'], quantiles = [0.5])
+# # # plt.savefig('Data/FIG_parallel_' + fname + '_with_incomplete_data.png')
 
-# #fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$'], quantiles = [0.5])
+# # #fig = corner.corner(stack_samp, labels = ['$M$','$r_K$','$\\Psi$', '$\\mu$'], quantiles = [0.5])
 
-# #fig = corner.corner(stack_samp, labels = ['$Ae$','$r_K$','$M_{BH}$', '$\\Psi$'], quantiles = [0.5])
+# # #fig = corner.corner(stack_samp, labels = ['$Ae$','$r_K$','$M_{BH}$', '$\\Psi$'], quantiles = [0.5])
 
-# #fig = corner.corner(stack_samp, labels = ['$M$','$r_K$', '$\\Psi$'], quantiles = [0.5])
+# # #fig = corner.corner(stack_samp, labels = ['$M$','$r_K$', '$\\Psi$'], quantiles = [0.5])
 
-fig = corner.corner(stack_samp, labels = ['$\\rho_0$','$r_K$', '$M_{BH}$', '$\\Psi$'], quantiles = [0.5])
+# fig = corner.corner(stack_samp, labels = ['$\\rho_0$','$r_K$', '$M_{BH}$', '$\\Psi$'], quantiles = [0.5])
+fig = corner.corner(stack_samp, labels = ['$r_K$', '$M_{BH}$', '$\\Psi$'], quantiles = [0.5])
 
-# M_samples = samples[:,0]
-# rc_samples = samples[:,1]
-# Psi_samples = samples[:,2]
+# # M_samples = samples[:,0]
+# # rc_samples = samples[:,1]
+# # Psi_samples = samples[:,2]
 
-# means, cov_matrix, info_matrix = means_covariace_information_matrix(samples)
+# # means, cov_matrix, info_matrix = means_covariace_information_matrix(samples)
 
-# M_mean = means[0]
-# rc_mean = means[1]
-# Psi_mean = means[2]
+# # M_mean = means[0]
+# # rc_mean = means[1]
+# # Psi_mean = means[2]
 
-# metric = np.linalg.det(info_matrix)
+# # metric = np.linalg.det(info_matrix)
 
         

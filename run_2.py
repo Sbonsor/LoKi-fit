@@ -342,17 +342,17 @@ covariance = 0.01*np.identity(5)
 covariance[0,0] *= 1 # rho_0
 covariance[1,1] *= 0.1  # rK
 covariance[2,2] *= 1  # M_BH
-covariance[3,3] *= 0.1  # Psi
+covariance[3,3] *= 0  # Psi
 covariance[4,4] *= 0  # epsilon
 nsamp = 50000
 nsamp_tune = 5000
 
-# target_acceptance_rate = 0.2
-# acceptance_rate_tol = 0.02
+target_acceptance_rate = 0.2
+acceptance_rate_tol = 0.02
 
-# covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol)
+covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol)
 
-# acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = True)
+acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = True)
 
 
 

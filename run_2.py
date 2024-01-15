@@ -337,7 +337,7 @@ print(log_prior(initial_parameters, prior_args))
  
 #data_path = '/home/s1984454/Desktop/King_fitting/Data/'
 data_path = '/home/s1984454/LoKi-fit/Data/'
-fname = 'run_1' 
+fname = 'run_2' 
 covariance = 0.01*np.identity(5)
 covariance[0,0] *= 1 # rho_0
 covariance[1,1] *= 0.1  # rK

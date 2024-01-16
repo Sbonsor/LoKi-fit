@@ -268,7 +268,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
         
         if(save_samples):
             
-            np.savetxt(data_path + 'SAMPLES_run_3.txt', samples)
+            np.savetxt(data_path + 'SAMPLES_run_5.txt', samples)
             
         return acceptance_rate
     

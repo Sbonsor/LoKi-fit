@@ -46,6 +46,7 @@ class dimensional_data_generation:
         self.G = 4.3009e-3
         self.save = True
         self.validate = True
+        self.fname = None
         
         if kwargs is not None:
             for key,value in kwargs.items():
@@ -112,7 +113,13 @@ class dimensional_data_generation:
         self.vz = self.dimensional_samples[:,5] = self.dimensionless_samples[:,5] / self.sqrt_a
         
         if self.save:
-            np.savetxt(f'Data/dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
+            
+            if self.fname == None:
+                np.savetxt(f'Data/dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
+            
+            else:
+                np.savetxt('Data/dimensional_samples_' + fname + '.txt', self.dimensional_samples)
+                
             print('Dimensional samples saved')
         
         return 1
@@ -127,11 +134,17 @@ class dimensional_data_generation:
             self.dimensional_samples[3*i + 1, 2] = None # Mask z, vx, vy coordinates for another 1/3 of the samples.
             self.dimensional_samples[3*i + 1, 3] = None
             self.dimensional_samples[3*i + 1, 4] = None
+                
+        if self.save:
             
-        if self.save:    
-            np.savetxt(f'Data/masked_dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
-            print('Masked samples saved.')
-        
+            if self.fname == None:
+                np.savetxt(f'Data/masked_dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt.txt', self.dimensional_samples)
+            
+            else:
+                np.savetxt('Data/masked_dimensional_samples_' + fname + '.txt', self.dimensional_samples)
+                
+            print('Masked samples saved')
+            
         return 1
     
     def validation_of_samples(self):
@@ -192,5 +205,6 @@ Psi = 5
 mu = 0.3
 epsilon = 0.1
 G = 4.3009e-3
+fname = 'samples_to_combine'
 
-sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = True, validate = True)
+sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = True, validate = True, fname = fname)

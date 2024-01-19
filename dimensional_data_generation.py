@@ -118,7 +118,7 @@ class dimensional_data_generation:
                 np.savetxt(f'Data/dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt', self.dimensional_samples)
             
             else:
-                np.savetxt('Data/dimensional_samples_' + fname + '.txt', self.dimensional_samples)
+                np.savetxt('Data/dimensional_samples_' + self.fname + '.txt', self.dimensional_samples)
                 
             print('Dimensional samples saved')
         
@@ -141,7 +141,7 @@ class dimensional_data_generation:
                 np.savetxt(f'Data/masked_dimensional_samples_King_M_{self.M}_rK_{self.rK}_Psi_{self.Psi}_mu_{self.mu}_epsilon_{self.epsilon}_N_{self.N}.txt.txt', self.dimensional_samples)
             
             else:
-                np.savetxt('Data/masked_dimensional_samples_' + fname + '.txt', self.dimensional_samples)
+                np.savetxt('Data/masked_dimensional_samples_' + self.fname + '.txt', self.dimensional_samples)
                 
             print('Masked samples saved')
             

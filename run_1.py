@@ -331,7 +331,7 @@ rho00, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 
 prior_args = np.array([rho0_max, rho0_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) + np.array([0, 0.2, 1, 2,  0])
+initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) + np.array([2, 0, 1, 2,  0])
 
 print(log_prior(initial_parameters, prior_args))
  
@@ -342,7 +342,7 @@ covariance = 0.01*np.identity(5)
 covariance[0,0] *= 1 # rho_0
 covariance[1,1] *= 0  # rK
 covariance[2,2] *= 1  # M_BH
-covariance[3,3] *= 0.1  # Psi
+covariance[3,3] *= 1  # Psi
 covariance[4,4] *= 0  # epsilon
 nsamp = 50000
 nsamp_tune = 5000

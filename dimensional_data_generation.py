@@ -188,6 +188,7 @@ class dimensional_data_generation:
         self.virial_ratio = -self.K/self.U
         
         print(f'Q_vir = {self.virial_ratio}')
+        print(f'Q deviation = {np.log10(abs(self.virial_ratio - 0.5))}')
         
         r_min = self.epsilon * self.rK
         sample_r_min = min(radii)
@@ -205,6 +206,6 @@ Psi = 5
 mu = 0.3
 epsilon = 0.1
 G = 4.3009e-3
-#fname = 'samples_to_combine'
+fname = 'samples_to_combine'
 
 sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = True, validate = True)

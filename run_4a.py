@@ -33,35 +33,35 @@ def log_prior(x, prior_args):
     
     G = 4.3009e-3
     
-    rho0_max = prior_args[0]
-    rho0_min = prior_args[1]
+    M0_max = prior_args[0]
+    M0_min = prior_args[1]
     rK_max = prior_args[2]
     rK_min = prior_args[3]
     Psi_max = prior_args[4]
     Psi_min = prior_args[5]
     
-    rho_0 = x[0]
+    M0 = x[0]
     rK = x[1]
-    M_BH = x[2]
+    mu = x[2]
     Psi = x[3]
     epsilon = x[4]
     
-    mu = M_BH /(rho_0* rK**3)
+    
        
     a0 = Psi - (9*mu)/(4*np.pi*epsilon)
     # print(f'a0 = {a0}')
-    rho0_flag = (rho_0 >= rho0_min and rho_0 <= rho0_max)
+    M0_flag = (M0 >= M0_min and M0 <= M0_max)
     rK_flag = (rK >= rK_min and rK <= rK_max)
     Psi_flag = (Psi >= Psi_min and Psi <= Psi_max)
     a0_flag = a0 >= 0
-    M_BH_positive_flag = M_BH >= 0
+    mu_positive_flag = mu >= 0
     
     # print(f'rho flag = {rho0_flag}')
     # print(f'rK flag = {rK_flag}')
     # print(f'Psi flag = {Psi_flag}')
     # print(f'a0 flag = {a0_flag}')
     
-    if (rho0_flag and rK_flag and Psi_flag and a0_flag and M_BH_positive_flag):
+    if (M0_flag and rK_flag and Psi_flag and a0_flag and mu_positive_flag):
         V = 1
         return -np.log(V)
     else:
@@ -115,24 +115,22 @@ def split_data(observed_data):
 
 def log_likelihood_6d(data_6d, parameters):  
     
-    rho_0 = parameters[0]
+    M = parameters[0]
     rK = parameters[1]
-    M_BH = parameters[2]
+    mu = parameters[2]
     Psi = parameters[3]
     epsilon = parameters[4]
     G = 4.3009e-3
-    
-    mu = M_BH /(rho_0* rK**3)
-    a = 9/(4 * np.pi * G * rho_0 * rK**2)
-    Ae = (3 * a**(3/2) * rho_0)/ (8 * np.sqrt(2) * np.pi * rho_hat(Psi))
     
     model = model = LoKi(mu, epsilon, Psi, pot_only = True)
     
     Mhat = np.trapz(y = 4*np.pi*model.rhat**2 * model.density(model.psi) / model.density(model.Psi) , x = model.rhat)
     
-    M_scale = rho_0 * rK**3 
+    Ahat = M/(Mhat * model.density(Psi) * rK**3)
     
-    M = Mhat * M_scale
+    a = 4 * np.pi * G * Ahat * model.density(Psi) /9
+    
+    Ae = 3 * np.power(a, 3/2) * Ahat / (8 * 2**0.5 * np.pi)
     
     xs = data_6d[:,0].copy()
     ys = data_6d[:,1].copy()
@@ -320,8 +318,8 @@ Psi0 = 5
 mu0 = 0.3
 eps0 = 0.1
 
-rho0_max = 170
-rho0_min = 1
+M0_max = 700
+M0_min = 300
 rK_max = 2
 rK_min = 0.5
 Psi_max = 9
@@ -329,19 +327,19 @@ Psi_min = 1
 
 rho00, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 
-prior_args = np.array([rho0_max, rho0_min, rK_max, rK_min, Psi_max, Psi_min])
+prior_args = np.array([M0_max, M0_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) + np.array([2, 0.2, 0, 2,  0])
+initial_parameters =  np.array([M0, rK0, mu0, Psi0, eps0]) + np.array([50, 0.2, 0, 2,  0])
 
 print(log_prior(initial_parameters, prior_args))
  
 #data_path = '/home/s1984454/Desktop/King_fitting/Data/'
 data_path = '/home/s1984454/LoKi-fit/Data/'
-fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_40000'
+fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_20000'
 covariance = 0.01*np.identity(5)
-covariance[0,0] *= 1 # rho_0
+covariance[0,0] *= 100 # M0
 covariance[1,1] *= 1  # rK
-covariance[2,2] *= 0  # M_BH
+covariance[2,2] *= 0  # mu
 covariance[3,3] *= 1  # Psi
 covariance[4,4] *= 0  # epsilon
 nsamp = 100000

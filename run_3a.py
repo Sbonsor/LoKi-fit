@@ -126,11 +126,9 @@ def log_likelihood_6d(data_6d, parameters):
     
     Mhat = np.trapz(y = 4*np.pi*model.rhat**2 * model.density(model.psi) / model.density(model.Psi) , x = model.rhat)
     
-    Ahat = M/(Mhat * model.density(Psi) * rK**3)
+    a = (9 * rK * Mhat)/(4*np.pi*G*M)
     
-    a = 4 * np.pi * G * Ahat * model.density(Psi) /9
-    
-    Ae = 3 * np.power(a, 3/2) * Ahat / (8 * 2**0.5 * np.pi)
+    Ae = (3 * a**(3/2) * M)/(8 * np.sqrt(2) * np.pi * model.density(Psi) * rK**3 * Mhat)
     
     xs = data_6d[:,0].copy()
     ys = data_6d[:,1].copy()
@@ -329,7 +327,7 @@ rho00, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 
 prior_args = np.array([M0_max, M0_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([M0, rK0, mu0, Psi0, eps0]) + np.array([0, 0, 0, 0,  0])
+initial_parameters =  np.array([M0, rK0, mu0, Psi0, eps0]) + np.array([5, 0.2, 0, 2,  0])
 
 print(log_prior(initial_parameters, prior_args))
  

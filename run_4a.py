@@ -266,7 +266,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
         
         if(save_samples):
             
-            np.savetxt(data_path + 'SAMPLES_run_3.txt', samples)
+            np.savetxt(data_path + 'SAMPLES_run_4a.txt', samples)
             
         return acceptance_rate
     
@@ -329,7 +329,7 @@ rho00, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 
 prior_args = np.array([M0_max, M0_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([M0, rK0, mu0, Psi0, eps0]) + np.array([50, 0.2, 0, 2,  0])
+initial_parameters =  np.array([M0, rK0, mu0, Psi0, eps0]) + np.array([0, 0, 0, 0,  0])
 
 print(log_prior(initial_parameters, prior_args))
  
@@ -337,7 +337,7 @@ print(log_prior(initial_parameters, prior_args))
 data_path = '/home/s1984454/LoKi-fit/Data/'
 fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_20000'
 covariance = 0.01*np.identity(5)
-covariance[0,0] *= 100 # M0
+covariance[0,0] *= 10 # M0
 covariance[1,1] *= 1  # rK
 covariance[2,2] *= 0  # mu
 covariance[3,3] *= 1  # Psi

@@ -36,12 +36,12 @@ def means_covariace_information_matrix(samples):
 #samples = np.loadtxt('Data/SAMPLES_parallel_dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0.3_epsilon_0.1_N_20000_fixed_eps_rho0(2fixed).txt')
 #samples = np.loadtxt('Data/SAMPLES_run_1.txt')
 #samples = np.loadtxt('Data/SAMPLES_run_2.txt')
-#samples = np.loadtxt('Data/SAMPLES_run_3.txt')
+samples = np.loadtxt('Data/SAMPLES_run_3.txt')
 #samples = np.loadtxt('Data/SAMPLES_run_4.txt')
-samples = np.loadtxt('Data/SAMPLES_run_5.txt')
+#samples = np.loadtxt('Data/SAMPLES_run_5.txt')
 
 
-burn_in = 10000
+burn_in = 50000
 # # #stack_samp = np.stack(samples[burn_in:,:])
 # stack_samp = np.stack(samples[burn_in:, 0:4])
 # # #stack_samp = np.stack(samples[burn_in:, 0:3])

@@ -34,6 +34,6 @@ target_acceptance_rate = 0.2
 acceptance_rate_tol = 0.02
 save_samples = True
 
-for i in range(10):
-    output_file = f'run_6_{i}.txt'
-    fitting(true_params, prior_args, initial_offset, data_path, data_file, nsamp, nsamp_tune, target_acceptance_rate, acceptance_rate_tol, save_samples, output_file)
+# for i in range(10):
+#     output_file = f'run_6_{i}.txt'
+#     fitting(true_params, prior_args, initial_offset, data_path, data_file, nsamp, nsamp_tune, target_acceptance_rate, acceptance_rate_tol, save_samples, output_file)

@@ -52,7 +52,7 @@ class fitting:
         self.rho00, self.M_BH0 = self.calculate_true_quantities()
         
         
-        self.initial_parameters =  true_params + self.initial_offset
+        self.initial_parameters =  np.array([self.rho00, self.rK0, self.Psi0, self.M_BH0, self.eps0]) + self.initial_offset
 
         print(self.log_prior(self.initial_parameters))
          

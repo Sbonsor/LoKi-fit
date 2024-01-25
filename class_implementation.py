@@ -25,8 +25,6 @@ class fitting:
         
         self.G = 4.3009e-3
         
-        self.initial_offset = initial_offset
-        
         self.data_path = data_path
         self.data_file = data_file
         self.output_file = output_file
@@ -52,8 +50,8 @@ class fitting:
         self.rho00, self.M_BH0 = self.calculate_true_quantities()
         
         
-        self.initial_parameters =  np.array([self.rho00, self.rK0, self.Psi0, self.M_BH0, self.eps0]) + self.initial_offset
-
+        self.initial_parameters =  np.array([self.rho00, self.rK0, self.M_BH0, self.Psi0, self.eps0]) + initial_offset
+        print(self.initial_parameters)
         print(self.log_prior(self.initial_parameters))
          
         self.covariance = 0.01*np.identity(5)
@@ -87,11 +85,15 @@ class fitting:
         a0 = Psi - (9*mu)/(4*np.pi*epsilon)
         
         rho0_flag = (rho_0 >= self.rho0_min and rho_0 <= self.rho0_max)
+
         rK_flag = (rK >= self.rK_min and rK <= self.rK_max)
+
         Psi_flag = (Psi >= self.Psi_min and Psi <= self.Psi_max)
+
         a0_flag = a0 >= 0
+
         M_BH_positive_flag = M_BH >= 0
-        
+       
         if (rho0_flag and rK_flag and Psi_flag and a0_flag and M_BH_positive_flag):
             V = 1
             return -np.log(V)

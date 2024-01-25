@@ -331,28 +331,28 @@ rho00, M_BH0 = calculate_true_quantities(M0, rK0, Psi0, mu0, eps0)
 
 prior_args = np.array([rho0_max, rho0_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) + np.array([2, 0.2, 0, 2,  0])
+initial_parameters =  np.array([rho00, rK0, M_BH0, Psi0, eps0]) #+ np.array([2, 0.2, 0, 2,  0])
 
-print(log_prior(initial_parameters, prior_args))
+# print(log_prior(initial_parameters, prior_args))
  
-#data_path = '/home/s1984454/Desktop/King_fitting/Data/'
-data_path = '/home/s1984454/LoKi-fit/Data/'
-fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_200000'
-covariance = 0.01*np.identity(5)
-covariance[0,0] *= 1 # rho_0
-covariance[1,1] *= 1  # rK
-covariance[2,2] *= 1  # M_BH
-covariance[3,3] *= 1  # Psi
-covariance[4,4] *= 0  # epsilon
-nsamp = 100000
-nsamp_tune = 10000
+# #data_path = '/home/s1984454/Desktop/King_fitting/Data/'
+# data_path = '/home/s1984454/LoKi-fit/Data/'
+# fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_200000'
+# covariance = 0.01*np.identity(5)
+# covariance[0,0] *= 1 # rho_0
+# covariance[1,1] *= 1  # rK
+# covariance[2,2] *= 1  # M_BH
+# covariance[3,3] *= 1  # Psi
+# covariance[4,4] *= 0  # epsilon
+# nsamp = 100000
+# nsamp_tune = 10000
 
-target_acceptance_rate = 0.2
-acceptance_rate_tol = 0.02
+# target_acceptance_rate = 0.2
+# acceptance_rate_tol = 0.02
 
-covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol)
+# covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol)
 
-acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = True)
+# acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = True)
 
 
 

@@ -51,8 +51,8 @@ class fitting:
         
         
         self.initial_parameters =  np.array([self.rho00, self.rK0, self.M_BH0, self.Psi0, self.eps0]) + initial_offset
-        print(self.initial_parameters)
-        print(self.log_prior(self.initial_parameters))
+        # print(self.initial_parameters)
+        # print(self.log_prior(self.initial_parameters))
          
         self.covariance = 0.01*np.identity(5)
         self.covariance[0,0] *= 1 # rho_0

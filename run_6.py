@@ -25,11 +25,11 @@ Psi_min = 1
 
 true_params = np.array([M0, rK0, Psi0, mu0, eps0])
 prior_args = np.array([rho0_max, rho0_min, rK_max, rK_min, Psi_max, Psi_min])
-initial_offset = np.array([2, 0.2, 0, 2,  0])
+initial_offset = np.array([0, 0, 0, 0,  0])
 data_path = '/home/s1984454/LoKi-fit/Data/'
 data_file  = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_40000'
-nsamp = 100
-nsamp_tune = 100
+nsamp = 1000000
+nsamp_tune = 10000
 target_acceptance_rate = 0.2
 acceptance_rate_tol = 0.02
 save_samples = True
@@ -37,5 +37,5 @@ save_samples = True
 for i in range(10):
     print(f'run {i} begin.')
     output_file = f'run_6_{i}.txt'
-    #fitter = fitting(true_params, prior_args, initial_offset, data_path, data_file, nsamp, nsamp_tune, target_acceptance_rate, acceptance_rate_tol, save_samples, output_file)
+    fitter = fitting(true_params, prior_args, initial_offset, data_path, data_file, nsamp, nsamp_tune, target_acceptance_rate, acceptance_rate_tol, save_samples, output_file)
     print(f'run {i} done.')

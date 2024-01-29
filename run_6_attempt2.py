@@ -353,7 +353,9 @@ acceptance_rate_tol = 0.02
 covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol, 0)
 
 for idx in range(10):
-    acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, idx, save_samples = False)
+    print(f'run {idx} start.')
+    acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, idx, save_samples = True)
+    print(f'run {idx} end.')
 
 
 

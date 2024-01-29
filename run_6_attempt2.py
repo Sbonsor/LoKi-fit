@@ -163,7 +163,7 @@ def log_likelihood_6d(data_6d, parameters):
     else:
         return np.sum(np.log(likelihoods))    
 
-def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = False, idx):
+def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args , idx, save_samples = False):
 
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
@@ -285,7 +285,7 @@ def tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune
     
     while(cov_tuned == False):
         
-        acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, save_samples = False, idx)
+        acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, idx, save_samples = False)
         
         if(rank1 == 0):
         
@@ -353,7 +353,7 @@ acceptance_rate_tol = 0.02
 covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol, 0)
 
 for idx in range(10):
-    acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = True, idx)
+    acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, idx, save_samples = False)
 
 
 

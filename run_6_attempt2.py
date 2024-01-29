@@ -344,8 +344,8 @@ covariance[1,1] *= 1  # rK
 covariance[2,2] *= 0  # M_BH
 covariance[3,3] *= 1  # Psi
 covariance[4,4] *= 0  # epsilon
-nsamp = 100
-nsamp_tune = 100
+nsamp = 100000
+nsamp_tune = 10000
 
 target_acceptance_rate = 0.2
 acceptance_rate_tol = 0.02

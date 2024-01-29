@@ -37,5 +37,5 @@ save_samples = True
 for i in range(10):
     print(f'run {i} begin.')
     output_file = f'run_6_{i}.txt'
-    fitter = fitting(true_params, prior_args, initial_offset, data_path, data_file, nsamp, nsamp_tune, target_acceptance_rate, acceptance_rate_tol, save_samples, output_file)
+    #fitter = fitting(true_params, prior_args, initial_offset, data_path, data_file, nsamp, nsamp_tune, target_acceptance_rate, acceptance_rate_tol, save_samples, output_file)
     print(f'run {i} done.')

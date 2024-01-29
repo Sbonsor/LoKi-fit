@@ -276,7 +276,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
         
         return 0
 
-def tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol):
+def tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol, idx):
     
     comm1 = MPI.COMM_WORLD
     rank1 = comm1.Get_rank()
@@ -285,7 +285,7 @@ def tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune
     
     while(cov_tuned == False):
         
-        acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, save_samples = False)
+        acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, save_samples = False, idx)
         
         if(rank1 == 0):
         
@@ -350,7 +350,7 @@ nsamp_tune = 100
 target_acceptance_rate = 0.2
 acceptance_rate_tol = 0.02
 
-covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol)
+covariance = tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol, 0)
 
 for idx in range(10):
     acceptance_rate = metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp, prior_args, save_samples = True, idx)

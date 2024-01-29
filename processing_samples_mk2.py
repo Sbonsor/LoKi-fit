@@ -64,17 +64,23 @@ def gaussian(x, mu, sig):
         1.0 / (np.sqrt(2.0 * np.pi) * sig) * np.exp(-np.power((x - mu) / sig, 2.0) / 2)
     )
 
-path_to_samples = 'Data/SAMPLES_run_3.txt'
-burn_in = 25000
+# path_to_samples = 'Data/SAMPLES_run_3.txt'
+# burn_in = 25000
+# indices = [0,1,3]
+
+# mean1, covariance1 = process_samples(path_to_samples, indices, burn_in)
+
+# path_to_samples = 'Data/SAMPLES_run_4.txt'
+# burn_in = 25000
+# indices = [0,1,3]
+
+# mean2, covariance2 = process_samples(path_to_samples, indices, burn_in)
+
+path_to_samples = 'Data/run_6_0.txt'
+burn_in = 0
 indices = [0,1,3]
 
-mean1, covariance1 = process_samples(path_to_samples, indices, burn_in)
-
-path_to_samples = 'Data/SAMPLES_run_4.txt'
-burn_in = 25000
-indices = [0,1,3]
-
-mean2, covariance2 = process_samples(path_to_samples, indices, burn_in)
+mean3, covariance3 = process_samples(path_to_samples, indices, burn_in)
 
 
 

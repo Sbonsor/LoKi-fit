@@ -54,7 +54,7 @@ class fitting:
         # print(self.initial_parameters)
         # print(self.log_prior(self.initial_parameters))
          
-        self.covariance = 0.01*np.identity(5)
+        self.covariance = 0.001*np.identity(5)
         self.covariance[0,0] *= 1 # rho_0
         self.covariance[1,1] *= 1  # rK
         self.covariance[2,2] *= 0  # M_BH

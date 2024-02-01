@@ -47,15 +47,15 @@ def process_samples(path_to_samples, indices, burn_in):
     
     axes = np.array(fig.axes).reshape((3, 3))
     
-    for i in range(3):
-        mu = mean[i]
-        sig = np.sqrt(covariance[i,i])
-        x = np.linspace(min(stack_samp[:,i]), max(stack_samp[:,i]), 100)
-        y = gaussian(x, mu, sig)
+    # for i in range(3):
+    #     mu = mean[i]
+    #     sig = np.sqrt(covariance[i,i])
+    #     x = np.linspace(min(stack_samp[:,i]), max(stack_samp[:,i]), 100)
+    #     y = gaussian(x, mu, sig)
         
-        fig, ax = plt.subplots(1,1)
-        ax.hist(stack_samp[:,i], density = True, bins = 20)
-        ax.plot(x,y, color = 'r')
+    #     fig, ax = plt.subplots(1,1)
+    #     ax.hist(stack_samp[:,i], density = True, bins = 20)
+    #     ax.plot(x,y, color = 'r')
     
     return mean, covariance
 
@@ -76,8 +76,8 @@ def gaussian(x, mu, sig):
 
 # mean2, covariance2 = process_samples(path_to_samples, indices, burn_in)
 
-path_to_samples = 'Data/run_6_0.txt'
-burn_in = 0
+path_to_samples = 'Data/SAMPLES_run_7_0.txt'
+burn_in = 50000
 indices = [0,1,3]
 
 mean3, covariance3 = process_samples(path_to_samples, indices, burn_in)

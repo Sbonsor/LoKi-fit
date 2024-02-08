@@ -7,6 +7,7 @@ Created on Thu Feb  1 14:17:18 2024
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 def cov_cross_element(array1, array2):
     
@@ -23,8 +24,9 @@ def construct_cov_array(matrix1, matrix2 ):
         
     return cov_array
 
-base_path = 'Data/SAMPLES_run_6_'
+base_path = 'Data/SAMPLES_run_8_'
 indices = [0,1,3]
+labels = ['rho_0', 'rK', 'Psi']
 m = 10
 
 samples = np.loadtxt(f'{base_path}{0}.txt')
@@ -62,6 +64,19 @@ var_V_hat = np.square((n-1)/n)/m * var_si + np.square((m+1)/(m*n))*((2*n**2)/(m-
 df = 2 * root_V_hat**4/var_V_hat
 
 root_Rhat = np.sqrt((root_V_hat**2 / W) * (df/(df-2)))
+
+for i in range(3):
+    
+    fig1, ax1 = plt.subplots(1,1)
+    ax1.scatter(x = range(m), y = xi_bar[:,i], marker = 'x')
+    ax1.set_xlabel('Run')
+    ax1.set_ylabel(labels[i] + ' mean')
+    
+    fig2, ax2 = plt.subplots(1,1)
+    ax2.scatter(x = range(m), y = si_2[:,i], marker = 'x')
+    ax2.set_xlabel('Run')
+    ax2.set_ylabel(labels[i] + ' variance')
+
 
 
 

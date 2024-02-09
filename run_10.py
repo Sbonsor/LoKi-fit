@@ -231,10 +231,12 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
                 current_parameters = proposal_parameters
                 l0 = l
                 accepted += 1
+                print('accepted')
                 
             else:
                 samples.append(current_parameters)
                 rejected +=1
+                print('rejected')
             
                 
         comm.Barrier()
@@ -298,8 +300,8 @@ initial_parameters =  np.array([M0, rK0, mu0, Psi0, eps0]) + np.array([20, 0.2, 
 
 print(log_prior(initial_parameters, prior_args))
  
-#data_path = '/home/s1984454/Desktop/King_fitting/Data/'
-data_path = '/home/s1984454/LoKi-fit/Data/'
+data_path = '/home/s1984454/Desktop/King_fitting/Data/'
+#data_path = '/home/s1984454/LoKi-fit/Data/'
 fname = f'dimensional_samples_King_M_{M0}_rK_{rK0}_Psi_{Psi0}_mu_{mu0}_epsilon_{eps0}_N_20000'
 covariance = 0.01*np.identity(5)
 covariance[0,0] *= 10 # M

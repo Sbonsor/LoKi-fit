@@ -171,7 +171,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
     data = comm.scatter(data,root = 0)
     
     data_3d, data_5d, data_6d = split_data(data)
-    print(len(data_6d))
+    #print(len(data_6d))
     
     
     l0_prior = log_prior(current_parameters,prior_args)
@@ -200,6 +200,9 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
         
         l_prior =  log_prior(proposal_parameters, prior_args)
         
+        if(rank==0):
+            print(l_prior)
+        
         if(l_prior == -np.inf):
             
             l_send = np.array([-np.inf,-np.inf,-np.inf])
@@ -216,7 +219,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
     
         if(rank == 0):
             l = np.sum(l_recv) + l_prior
-            print(l)
+            #print(l)
             if(i%1000 == 0):
                 print(i)
             

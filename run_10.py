@@ -201,8 +201,8 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
         
         l_prior =  log_prior(proposal_parameters, prior_args)
         
-        if(rank==0):
-            print(f'proposal l_prior = {l_prior}')
+        #if(rank==0):
+            #print(f'proposal l_prior = {l_prior}')
         
         if(l_prior == -np.inf):
             
@@ -220,7 +220,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
     
         if(rank == 0):
             l = np.sum(l_recv) + l_prior
-            print(f'proposal l = {l}')
+            #print(f'proposal l = {l}')
             if(i%1000 == 0):
                 print(i)
             
@@ -236,12 +236,12 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
                 current_parameters = proposal_parameters
                 l0 = l
                 accepted += 1
-                print('accepted')
+                #print('accepted')
                 
             else:
                 samples.append(current_parameters)
                 rejected +=1
-                print('rejected')
+                #print('rejected')
             
                 
         comm.Barrier()

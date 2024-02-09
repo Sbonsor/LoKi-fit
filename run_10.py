@@ -301,7 +301,7 @@ Psi_min = 1
 
 prior_args = np.array([M_max, M_min, rK_max, rK_min, Psi_max, Psi_min])
 
-initial_parameters =  np.array([M0, rK0, mu0, Psi0, eps0]) + np.array([0, 0.2, 0, 2,  0])
+initial_parameters =  np.array([M0, rK0, mu0, Psi0, eps0]) + np.array([0, 0, 0, 0,  0])
 
 print(log_prior(initial_parameters, prior_args))
  

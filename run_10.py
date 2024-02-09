@@ -216,6 +216,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
     
         if(rank == 0):
             l = np.sum(l_recv) + l_prior
+            print(l)
             if(i%1000 == 0):
                 print(i)
             
@@ -260,7 +261,7 @@ def tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune
     
     comm1 = MPI.COMM_WORLD
     rank1 = comm1.Get_rank()
-    print(rank1)
+    #print(rank1)
     cov_tuned = False
     
     while(cov_tuned == False):

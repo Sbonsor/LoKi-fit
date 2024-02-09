@@ -189,7 +189,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
     if (rank == 0):
         
         l0 = np.sum(l_recv) + l0_prior
-        print(f'first likelihood = {l0}')
+        #print(f'first likelihood = {l0}')
         
     for i in range(nsamp):
         

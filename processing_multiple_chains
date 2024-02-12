@@ -76,6 +76,13 @@ for i in range(3):
     ax2.scatter(x = range(m), y = si_2[:,i], marker = 'x')
     ax2.set_xlabel('Run')
     ax2.set_ylabel(labels[i] + ' variance')
+    
+for i in range(3):
+    for j in range(i,3):
+        
+        fig3, ax3 = plt.subplots(1,1)
+        ax3.scatter(xi_bar[:,i], xi_bar[:,j], marker = 'x')
+        
 
 
 

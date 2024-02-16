@@ -151,8 +151,8 @@ mu = 0
 epsilon = 1e-6
 
 restart = False
-data_path = f'/home/s1984454/Desktop/LoKi-Fit/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000.txt'
-save_file = f'/home/s1984454/Desktop/LoKi-Fit/Data/fisher_evaluations_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000_processor_{rank}.txt'
+data_path = f'/home/s1984454/LoKi-fit/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000.txt'
+save_file = f'/home/s1984454/LoKi-fit/Data/fisher_evaluations_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000_processor_{rank}.txt'
 theta = np.array([M, rK, Psi, mu, epsilon])
 h = 1e-4
 

@@ -199,10 +199,10 @@ class dimensional_data_generation:
         return 1
     
 ### Generate data    
-N = 1000000
+N = 20000
 M = 500
 rK = 1.2 
-Psi = 5
+Psi = 7
 mu = 0
 epsilon = 1e-6
 G = 4.3009e-3

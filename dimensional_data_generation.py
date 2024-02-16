@@ -199,13 +199,13 @@ class dimensional_data_generation:
         return 1
     
 ### Generate data    
-N = 200000
+N = 1000000
 M = 500
 rK = 1.2 
 Psi = 5
-mu = 0.3
-epsilon = 0.1
+mu = 0
+epsilon = 1e-6
 G = 4.3009e-3
-fname = 'samples_to_combine'
+fname = None
 
 sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = True, validate = True)

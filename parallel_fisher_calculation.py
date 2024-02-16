@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Feb  9 14:42:13 2024
+Created on Fri Feb 16 14:38:00 2024
 
 @author: s1984454
 """
+
 from LoKi import LoKi
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import simps
 from scipy.special import gammainc, gamma
 from mpi4py import MPI
-from findiff import SymbolicMesh, SymbolicDiff
 
 def log_likelihood(x, theta):
     
@@ -124,23 +124,25 @@ def Hessian(data_point, theta, h):
     
     return hessian
 
-def observed_fisher_information(theta, data_path, N, h):
+# def observed_fisher_information(theta, data, N, h):
     
-    J = np.zeros((3,3))
+#     J = np.zeros((3,3))
     
-    data = np.loadtxt(data_path)
+#     for i in range(N):
+        
+#         data_point = data[i,:]
+        
+#         H = Hessian(data_point, theta, h)
+        
+#         J = J + H
+        
+#     J = J/N
     
-    for i in range(N):
-        
-        data_point = data[i,:]
-        
-        H = Hessian(data_point, theta, h)
-        
-        J = J + H
-        
-    J = J/N
-    
-    return -J
+#     return -J
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
 
 M = 500
 rK = 1.2
@@ -148,56 +150,56 @@ Psi = 5
 mu = 0
 epsilon = 1e-6
 
-data_path = f'/home/s1984454/Desktop/King_fitting/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_20000.txt'
+restart = False
+data_path = f'/home/s1984454/Desktop/LoKi-Fit/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000.txt'
+save_file = f'/home/s1984454/Desktop/LoKi-Fit/Data/fisher_evaluations_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000_processor_{rank}.txt'
 theta = np.array([M, rK, Psi, mu, epsilon])
 h = 1e-4
-N = 1
 
-# theta = [1,2,3]
-J = observed_fisher_information(theta, data_path, N, h)
-
-
-#### Testing discretisation convergence using a single data point.
-
-# hs = np.logspace(-5,-2,500)
-# determinants1 = []
-# matrices1 = []
-
-# for h in hs:
-#     J = observed_fisher_information(theta, data_path, 1, h)
-#     det = np.linalg.det(J)
-#     matrices1.append(J)
-#     determinants1.append(det)
-#     print(h)
-
-# fig1, ax1 = plt.subplots(1,1)
-# ax1.scatter(hs, abs(np.array(determinants1)), marker = 'x')
-# ax1.set_xlabel('h')
-# ax1.set_ylabel('det(J)')
-# ax1.set_yscale('log')
-# ax1.set_xscale('log')
+# Check for how much has already been calculated and set the starting index appropriately.
+if (restart == True):
     
-#### Testing convergence as a function of N using a fixed step size.
+    existing_data = np.loadtxt(save_file)
+    start_index = len(existing_data) - 1
 
-Ns = np.logspace(1, 5, 20, dtype=int)
-h = 1e-3
-data_path = f'/home/s1984454/Desktop/LoKi-Fit/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000.txt'
-theta = np.array([M, rK, Psi, mu, epsilon])
+#Otherwise create a new empty file.    
+else:
 
-determinants2 = []
+    open(save_file, 'w').close() 
+    start_index = 0
 
-for N in Ns:
-    print(N)
-    J = observed_fisher_information(theta, data_path, N, h)
-    det = np.linalg.det(J)
-    determinants2.append(det)
+if (rank == 0):
     
-fig2, ax2 = plt.subplots(1,1)
-ax2.scatter(Ns[0:17], abs(np.array(determinants2)), marker = 'x')
-ax2.set_xlabel('N')
-ax2.set_ylabel('det(J)')
-ax2.set_xscale('log')
-ax2.set_yscale('log')
+    data = np.loadtxt(data_path) #Load data
+    data = np.array_split(data,size) #Generate list with subsets of the data to go to each processor
+    
+else:
+    
+    data = None
+    
+data = comm.scatter(data,root = 0) # Distribute each sub-array to it's processor.
+
+for i in range(start_index, len(data)):
+    print(i)
+    
+    data_row = data[i,:]
+    
+    minus_H = -Hessian(data_row, theta, h)
+    
+    write_row = np.reshape(np.append(data_row, minus_H), (1,len(data_row)+9))
+    
+    with open(save_file, 'ab') as f:
+        np.savetxt(f, write_row, delimiter= ' ')
+    
+    
+    
+
+        
+    
+
+
+
+
 
 
 

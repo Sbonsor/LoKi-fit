@@ -36,7 +36,9 @@ def means_covariance(samples):
 
 def process_samples(path_to_samples, indices, burn_in):
     
-    labels = ['$\\rho_0$', '$r_k$', '$M_{BH}$', '$\\Psi$', '$\\epsilon$']
+   # labels = ['$\\rho_0$', '$r_k$', '$M_{BH}$', '$\\Psi$', '$\\epsilon$']
+    
+    labels = ['$M$', '$r_k$', '$M_{BH}$', '$\\Psi$', '$\\epsilon$']
     
     samples = np.loadtxt(path_to_samples)
     stack_samp = samples[burn_in:, indices]
@@ -76,7 +78,7 @@ def gaussian(x, mu, sig):
 
 # mean2, covariance2 = process_samples(path_to_samples, indices, burn_in)
 
-path_to_samples = 'Data/SAMPLES_run_10_0.txt'
+path_to_samples = 'Data/SAMPLES_run_10_8.txt'
 burn_in = 50000
 indices = [0,1,3]
 

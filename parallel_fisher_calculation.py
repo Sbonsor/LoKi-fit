@@ -155,7 +155,7 @@ restart = False
 # save_file = f'/home/s1984454/LoKi-fit/Data/fisher_evaluations_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000_processor_{rank}.txt'
 
 data_path = '/home/s1984454/LoKi-fit/Data/dimensional_samples_Base_sample_set.txt'
-save_file = '/home/s1984454/LoKi-fit/Data/fisher_evaluations_Base_sample_set_{rank}.txt'
+save_file = f'/home/s1984454/LoKi-fit/Data/fisher_evaluations_Base_sample_set_{rank}.txt'
 
 theta = np.array([M, rK, Psi, mu, epsilon])
 h = 1e-4

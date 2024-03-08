@@ -94,7 +94,7 @@ epsilon = 1e-6
 theta = np.array([M, rK, Psi, mu, epsilon])
 h = 1e-4
 n_trials = 100
-N_add = 10000
+N_add = 50000
 
 base_file = 'fisher_evaluations_Base_sample_set'
 addition_file = f'fisher_evaluations_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000_processor'
@@ -115,6 +115,22 @@ adding_outer = run_addition_of_subsets(n_trials, outer_stars, N_add, base_data)
 information_gain_inner = adding_inner - base_information_matrix_det
 information_gain_intermediate = adding_intermediate - base_information_matrix_det
 information_gain_outer = adding_outer - base_information_matrix_det
+
+fig, ax = plt.subplots(1,1)
+ax.hist(information_gain_inner, bins = 20)
+ax.set_xlabel('Information gain')
+ax.set_title('Adding inner samples')
+
+fig, ax = plt.subplots(1,1)
+ax.hist(information_gain_intermediate, bins = 20)
+ax.set_xlabel('Information gain')
+ax.set_title('Adding intermediate_samples')
+
+fig, ax = plt.subplots(1,1)
+ax.hist(information_gain_outer[information_gain_outer>0], bins = 20)
+ax.set_xlabel('Information gain')
+ax.set_title('Adding outer samples')
+
 
     
 

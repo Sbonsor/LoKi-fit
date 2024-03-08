@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import simps
 from scipy.special import gammainc, gamma
 from mpi4py import MPI
-from findiff import SymbolicMesh, SymbolicDiff
+
 
 def log_likelihood(x, theta):
     
@@ -142,19 +142,19 @@ def observed_fisher_information(theta, data_path, N, h):
     
     return -J
 
-M = 500
-rK = 1.2
-Psi = 5
-mu = 0
-epsilon = 1e-6
+# M = 500
+# rK = 1.2
+# Psi = 5
+# mu = 0
+# epsilon = 1e-6
 
-data_path = f'/home/s1984454/Desktop/King_fitting/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_20000.txt'
-theta = np.array([M, rK, Psi, mu, epsilon])
-h = 1e-4
-N = 1
+# data_path = f'/home/s1984454/Desktop/King_fitting/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_20000.txt'
+# theta = np.array([M, rK, Psi, mu, epsilon])
+# h = 1e-4
+# N = 1
 
 # theta = [1,2,3]
-J = observed_fisher_information(theta, data_path, N, h)
+# J = observed_fisher_information(theta, data_path, N, h)
 
 
 #### Testing discretisation convergence using a single data point.
@@ -179,25 +179,29 @@ J = observed_fisher_information(theta, data_path, N, h)
     
 #### Testing convergence as a function of N using a fixed step size.
 
-Ns = np.logspace(1, 5, 20, dtype=int)
-h = 1e-3
-data_path = f'/home/s1984454/Desktop/LoKi-Fit/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000.txt'
-theta = np.array([M, rK, Psi, mu, epsilon])
+# Ns = np.logspace(1, 5, 20, dtype=int)
+# h = 1e-3
+# data_path = f'/home/s1984454/Desktop/LoKi-Fit/Data/dimensional_samples_King_M_{M}_rK_{rK}_Psi_{Psi}_mu_{mu}_epsilon_{epsilon}_N_1000000.txt'
+# theta = np.array([M, rK, Psi, mu, epsilon])
 
-determinants2 = []
+# determinants2 = []
 
-for N in Ns:
-    print(N)
-    J = observed_fisher_information(theta, data_path, N, h)
-    det = np.linalg.det(J)
-    determinants2.append(det)
+# for N in Ns:
+#     print(N)
+#     J = observed_fisher_information(theta, data_path, N, h)
+#     det = np.linalg.det(J)
+#     determinants2.append(det)
     
-fig2, ax2 = plt.subplots(1,1)
-ax2.scatter(Ns[0:17], abs(np.array(determinants2)), marker = 'x')
-ax2.set_xlabel('N')
-ax2.set_ylabel('det(J)')
-ax2.set_xscale('log')
-ax2.set_yscale('log')
+# fig2, ax2 = plt.subplots(1,1)
+# ax2.scatter(Ns[0:17], abs(np.array(determinants2)), marker = 'x')
+# ax2.set_xlabel('N')
+# ax2.set_ylabel('det(J)')
+# ax2.set_xscale('log')
+# ax2.set_yscale('log')
+
+
+
+
 
 
 

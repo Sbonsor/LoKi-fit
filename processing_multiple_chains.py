@@ -24,7 +24,7 @@ def construct_cov_array(matrix1, matrix2 ):
         
     return cov_array
 
-base_path = 'Data/SAMPLES_run_10_'
+base_path = 'Data/SAMPLES_run_12_'
 indices = [0,1,3]
 labels = ['rho_0', 'rK', 'Psi']
 m = 10

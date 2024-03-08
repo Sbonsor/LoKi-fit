@@ -1,13 +1,11 @@
 #!/bin/sh
 
-mpiexec -n 10 './parallel_fisher_calculation.py'
+mpiexec -n 10 './parallel_max_likelihood.py'
 
 echo 'In between runs now!'
 
-mpiexec -n 10 './run_11.py'
+mpiexec -n 10 './parallel__single_derivatives.py'
 
-echo 'In between runs now!'
 
-mpiexec -n 10 './run_12.py'
 
 

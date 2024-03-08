@@ -78,7 +78,7 @@ def gaussian(x, mu, sig):
 
 # mean2, covariance2 = process_samples(path_to_samples, indices, burn_in)
 
-path_to_samples = 'Data/SAMPLES_run_10_8.txt'
+path_to_samples = 'Data/SAMPLES_run_11_8.txt'
 burn_in = 50000
 indices = [0,1,3]
 

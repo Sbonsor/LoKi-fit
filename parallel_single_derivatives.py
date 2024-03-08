@@ -138,7 +138,7 @@ h = 1e-4
 for region in range(3):
 
     if (rank == 0):
-        print('Calculating through region {region}...')
+        print(f'Calculating through region {region}...')
         ###Read in full data set
         data = np.loadtxt(data_path) #Load data
         

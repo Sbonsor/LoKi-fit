@@ -64,7 +64,8 @@ def log_likelihoods(theta, rs, vs):
             
         ls = (Ae)/M * (np.exp(-Ehats) - 1)
         
-        log_ls= np.log(ls)
+        for l in ls:
+            log_ls= np.log(ls)
         
         return log_ls
 
@@ -80,7 +81,8 @@ epsilon = 1e-6
 theta = np.array([M, rK, Psi])
 
 ### File containing the star samples
-data_path = '/home/s1984454/LoKi-fit/Data/dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_1000000.txt'
+#data_path = '/home/s1984454/LoKi-fit/Data/dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_1000000.txt'
+data_path = '/home/s1984454/Desktop/LoKi-Fit/Data/dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_1000000.txt'
 ### Parameters for maximising likelihood
 n_grid = 100
 min_Psi = 4.5
@@ -124,10 +126,11 @@ for region in range(3):
     
     ###Iterate through the grid and append the total log-likelihood to  a list
     for i in range(len(PSIS)):
+        print(i)
         theta = np.array([MS[i], RKS[i], PSIS[i]])
         log_ls = log_likelihoods(theta, rs, vs)
         results.append(np.sum(log_ls))
-    
+
     results = np.array(results)
     
     ###Each processor finds it's maximum likelihood value...
@@ -140,17 +143,21 @@ for region in range(3):
     
     if (rank == 0):
         recv_buff = np.empty([size, 4], dtype = float)
+        print(recv_buff)
 
     comm.Gather(to_save, recv_buff, root = 0)
     
     ### The root process compares the results form each processor, picks the largest value, and saves the output.
     if(rank == 0):
+        print(recv_buff)
         max_logs = recv_buff[:,-1]
-        max_idx = np.where(max_logs == np.max(max_logs))
+        max_idx = np.where(max_logs == np.max(max_logs))[0][0]
         
         array_to_save = recv_buff[max_idx, :]
-        save_file = f'/home/s1984454/LoKi-fit/Data/max_likelihood_params_region_{region}.txt'
-        with open(save_file, 'ab') as f:
+        print(array_to_save)
+        #save_file = f'/home/s1984454/LoKi-fit/Data/max_likelihood_params_region_{region}.txt'
+        save_file = f'/home/s1984454/Desktop/LoKi-Fit/Data/max_likelihood_params_region_{region}.txt'
+        with open(save_file, 'wb') as f:
             np.savetxt(f, array_to_save, delimiter= ' ')
 
     

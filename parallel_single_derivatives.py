@@ -168,7 +168,7 @@ for region in range(3):
     if(rank == 0):
         array_to_save = sum(recv_buff)
         save_file = '/home/s1984454/LoKi-fit/Data/log_likelihood_derivatives.txt'
-        with open(save_file, 'ab') as f:
+        with open(save_file, 'wb') as f:
             np.savetxt(f, array_to_save, delimiter= ' ')
     
     

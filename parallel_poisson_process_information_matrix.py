@@ -166,6 +166,9 @@ for idx in range(n_points):
     info_mat_single = info_matrix_single(region_data, region_boundaries, region)
 
     info_mat_combined = info_mat_combined + info_mat_single
+    
+    if(rank == 0):
+        print(idx)
 
 ###Sum all calculated matrices.
 comm.Reduce(info_mat_combined, total_matrix, root = 0, op = MPI.SUM )

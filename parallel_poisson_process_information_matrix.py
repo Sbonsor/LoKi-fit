@@ -136,9 +136,10 @@ rK_max = 1.4
 Psi_min = 3
 Psi_max = 7
 h = 1e-4
-region = 2
+region = 0
 n_points = 100
 data_path = '/home/s1984454/LoKi-fit/Data/dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_1000000.txt'
+#data_path = '/home/s1984454/Desktop/LoKi-Fit/Data/dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_1000000.txt'
 
 ### Derived parameters
 data = np.loadtxt(data_path)
@@ -147,6 +148,7 @@ parameter_bounds = [(M_min, M_max), (rK_min, rK_max), (Psi_min, Psi_max)]
 theta0 = np.array([M, rK, Psi]) 
 region_boundaries = radii_separations(Psi, rK)
 save_path = f'/home/s1984454/LoKi-fit/Data/M_{M}_rK_{rK}_Psi_{Psi}_N_{N}_n_{n}_region_{region}_information_matrix.txt'
+#save_path = f'/home/s1984454/Desktop/LoKi-Fit/Data/M_{M}_rK_{rK}_Psi_{Psi}_N_{N}_n_{n}_region_{region}_information_matrix.txt'
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()

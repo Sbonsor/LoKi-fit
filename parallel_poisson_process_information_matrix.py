@@ -136,7 +136,7 @@ rK_max = 1.4
 Psi_min = 3
 Psi_max = 7
 h = 1e-4
-region = 0
+region = 2
 n_points = 100
 data_path = '/home/s1984454/LoKi-fit/Data/dimensional_samples_King_M_500_rK_1.2_Psi_5_mu_0_epsilon_1e-06_N_1000000.txt'
 

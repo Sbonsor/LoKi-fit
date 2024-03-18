@@ -90,7 +90,7 @@ def single_derivative_log_l(i, h, rs, vs, r1, r2, theta):
     u_1x = log_likelihood(theta - 1*x_increment, rs, vs, r1, r2)
     u_2x = log_likelihood(theta - 2*x_increment, rs, vs, r1, r2)
     
-    first_deriv = ((u_x2/12) - (2*u_x1/3) + (2*u_1x/3) - (u_2x/12))/h
+    first_deriv = (-(u_x2/12) + (2*u_x1/3) - (2*u_1x/3) + (u_2x/12))/h
     
     return first_deriv
 

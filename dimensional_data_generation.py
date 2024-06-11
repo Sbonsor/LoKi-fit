@@ -82,13 +82,24 @@ class dimensional_data_generation:
                 function = 2*(Ehat + psi_interp(r)) - (Jhat/r)**2
                 
                 return function
-
-            r_grid = np.linspace(1e-4, self.model.rhat[-1], 10000)
-            function = 2*(Ehat + psi_interp(r_grid)) - (Jhat/r_grid)**2
-            upper_bracket = r_grid[np.where(function == max(function))[0][0]]
-
-            r_p = root_scalar(f = f, args = (Ehat, Jhat, psi_interp), bracket = [1e-4, upper_bracket], method = 'bisect').root
-
+        
+            try:
+                r_grid = np.linspace(self.model.rhat[0], self.model.rhat[-1], 10000)
+                function = 2*(Ehat + psi_interp(r_grid)) - (Jhat/r_grid)**2
+                upper_bracket = r_grid[np.where(function == max(function))[0][0]]
+                r_p = root_scalar(f = f, args = (Ehat, Jhat, psi_interp), bracket = [self.model.rhat[0], upper_bracket], method = 'bisect').root
+                
+            except:
+                #print('Tried to sample a point without a resolved r_p, retrying calculation with finer radial grid.')
+                r_grid = np.linspace(self.model.rhat[0], self.model.rhat[-1], 1000000)
+                function = 2*(Ehat + psi_interp(r_grid)) - (Jhat/r_grid)**2
+                
+                if function[0]<=0:
+                    upper_bracket = r_grid[np.where(function == max(function))[0][0]]
+                    r_p = root_scalar(f = f, args = (Ehat, Jhat, psi_interp), bracket = [self.model.rhat[0], upper_bracket], method = 'bisect').root
+                else:
+                    r_p = 0
+                    
             if (r_p >= self.epsilon):
                 self.dimensionless_samples.append([xhat, yhat, zhat, vxhat, vyhat, vzhat])
                 #print(len(self.dimensionless_samples))
@@ -199,13 +210,13 @@ class dimensional_data_generation:
         return 1
     
 ### Generate data    
-N = 100000
-M = 500
-rK = 1.2 
-Psi = 5
-mu = 0
-epsilon = 1e-6
-G = 4.3009e-3
-fname = 'Base_sample_set'
+# N = 100000
+# M = 500
+# rK = 1.2 
+# Psi = 5
+# mu = 0
+# epsilon = 1e-6
+# G = 4.3009e-3
+# fname = 'Base_sample_set'
 
-sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = True, validate = True, fname = fname)
+# sampling = dimensional_data_generation(N, M, rK, Psi, mu, epsilon, save = True, validate = True, fname = fname)

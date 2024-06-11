@@ -39,13 +39,17 @@ def log_prior(x, prior_args):
     M_flag = (M >= M_min and M <= M_max)
     rK_flag = (rK >= rK_min and rK <= rK_max)
     Psi_flag = (Psi >= Psi_min and Psi <= Psi_max)
+    mu_flag = mu>=0
+    a0 = Psi -  (9*mu)/(4*np.pi*epsilon)
+    
+    a0_flag = a0>=0
     
     # print(f'rho flag = {rho0_flag}')
     # print(f'rK flag = {rK_flag}')
     # print(f'Psi flag = {Psi_flag}')
     # print(f'a0 flag = {a0_flag}')
     
-    if (M_flag and rK_flag and Psi_flag):
+    if (M_flag and rK_flag and Psi_flag and a0_flag and mu_flag):
         V = 1
         return -np.log(V)
     else:

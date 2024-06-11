@@ -86,22 +86,22 @@ def log_likelihood(theta, data):
         rhats = rs/rK
         vhats = vs*np.sqrt(a)
     
-        vhat_rhats = np.interp(rhats, model.rhat, np.sqrt(2*model.psi))
+        # vhat_rhats = np.interp(rhats, model.rhat, np.sqrt(2*model.psi))
         
-        point_comparisons = vhats <=  vhat_rhats
+        # point_comparisons = vhats <=  vhat_rhats
         
-        if False in point_comparisons:
-            return -np.inf
+        # if False in point_comparisons:
+        #     return -np.inf
             
-        else:            
-            psis = np.interp(rhats, xp = model.rhat, fp = model.psi)
-            Ehats = np.clip(0.5* vhats**2 - psis, a_max = 0, a_min = None)
-                
-            ls = Ae/M * (np.exp(-Ehats) - 1)
+        # else:            
+        psis = np.interp(rhats, xp = model.rhat, fp = model.psi)
+        Ehats = np.clip(0.5* vhats**2 - psis, a_max = 0, a_min = None)
             
-            log_ls = np.log(ls)
+        ls = Ae/M * (np.exp(-Ehats) - 1)
         
-            return np.sum(log_ls)
+        log_ls = np.log(ls)
+        
+        return np.sum(log_ls)
     
 def metropolis_sampling(data, initial_parameters, covariance, nsamp, prior_args, rank, comm, save_samples = False):
 
@@ -217,7 +217,7 @@ def tune_covariance(data, initial_parameters, cov0, nsamp_tune, prior_args, targ
     
     # comm1 = MPI.COMM_WORLD
     # rank1 = comm1.Get_rank()
-    print(f'I am processor {rank1}')
+    #print(f'I am processor {rank1}')
     sys.stdout.flush()
     cov_tuned = False
     

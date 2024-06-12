@@ -245,7 +245,7 @@ def metropolis_sampling(data_path, fname, initial_parameters, covariance, nsamp,
             else:
                 samples.append(current_parameters)
                 rejected +=1
-                #print('rejected')
+               #print('rejected')
             
                 
         comm.Barrier()
@@ -279,6 +279,8 @@ def tune_covariance(data_path, fname, initial_parameters, covariance, nsamp_tune
         if(rank1 == 0):
         
             if(abs(acceptance_rate  - target_acceptance_rate) > acceptance_rate_tol):
+		if(acceptance_rate == 0):
+			raise()
                 covariance = covariance * acceptance_rate / target_acceptance_rate
             else:
                 cov_tuned = True

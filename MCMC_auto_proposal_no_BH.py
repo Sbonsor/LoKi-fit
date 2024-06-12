@@ -302,9 +302,9 @@ def initialise_proposal_covariance(M_min, M_max, Psi_min, Psi_max, rK_min, rK_ma
 
 G = 4.3009e-3
 
-M_true = 500
-rK_true = 1.2
-Psi_true = 5
+M_true = 10**6.05
+rK_true = 0.51
+Psi_true = 8.6
 
 n_stars = 10000
 nsamp = 100000

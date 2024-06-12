@@ -1,10 +1,10 @@
 #!/bin/sh
 
-mpiexec -n 10 './parallel_max_likelihood.py'
+mpiexec -n 10 './MCMC_auto_proposal_no_BH.py'
 
 echo 'In between runs now!'
 
-mpiexec -n 10 './parallel__single_derivatives.py'
+mpiexec -n 10 './run_14.py'
 
 
 

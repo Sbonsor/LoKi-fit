@@ -82,7 +82,7 @@ def log_likelihood(theta, data):
     
         return np.sum(log_ls)
     
-def metropolis_sampling(data, initial_parameters, covariance, nsamp, prior_args, save_samples = False):
+def metropolis_sampling(data, initial_parameters, covariance, nsamp, prior_args, idx, save_samples = False):
 
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
@@ -183,7 +183,7 @@ def metropolis_sampling(data, initial_parameters, covariance, nsamp, prior_args,
         if(save_samples):
             
             
-            np.savetxt(f'Data/SAMPLES_MCMC_auto_proposal_M_{M_true}_rK_{rK_true}_Psi_{Psi_true}.txt', samples)
+            np.savetxt(f'Data/SAMPLES_MCMC_auto_proposal_M_{M_true}_rK_{rK_true}_Psi_{Psi_true}_non_diag_{idx}.txt', samples)
             
         return acceptance_rate
     
@@ -200,7 +200,7 @@ def tune_covariance(data, initial_parameters, cov0, nsamp_tune, prior_args, targ
     
     while(cov_tuned == False):
         
-        acceptance_rate = metropolis_sampling(data, initial_parameters, cov0, nsamp_tune, prior_args, save_samples = False)
+        acceptance_rate = metropolis_sampling(data, initial_parameters, cov0, nsamp_tune, prior_args, 0, save_samples = False)
         
         if(rank1 == 0):
         
@@ -239,6 +239,62 @@ def generate_data(n_stars, M_true, rK_true, Psi_true):
     return data
 
 def initialise_proposal_covariance(M_min, M_max, Psi_min, Psi_max, rK_min, rK_max, npoints_axis, data):
+    
+    def integral_3d(integrand, rK_axis, M_axis, Psi_axis):
+        
+        integrand = np.reshape(integrand, (len(rK_axis), len(M_axis), len(Psi_axis))) 
+        
+        first_integral = simps(y = integrand, x = rK_axis, axis = 0)
+        second_integral = simps(y = first_integral, x = M_axis, axis = 0)
+        final_integral = simps(y = second_integral, x = Psi_axis, axis = 0)
+        
+        return final_integral
+
+    def calculate_mean(Ms, RKs, PSIS, posterior):
+        
+        theta = [Ms, RKs, PSIS]
+        
+        theta_bar = np.zeros(3)
+        for i in range(3):
+            integrand = posterior * theta[i]
+            
+            theta_bar[i] = integral_3d(integrand, rK_axis, M_axis, Psi_axis)
+            
+        return theta_bar
+
+    def calculate_covariance(Ms, RKs, PSIS, posterior, theta_bar):
+        
+        theta = [Ms, RKs, PSIS]
+        
+        covariance = np.zeros((3,3))
+
+        for i in range(3):
+            for j in range(i+1):
+                
+                integrand = (theta[i] - theta_bar[i]) * (theta[j] - theta_bar[j]) * posterior
+                
+                covariance[i][j] = covariance[j][i] = integral_3d(integrand, rK_axis, M_axis, Psi_axis)
+                
+        return covariance
+
+    def calculate_posterior(Ms, RKs, PSIS, log_ls):
+        
+        ### Calculating normalisation of posterior:
+        integrand = np.zeros(len(PSIS))
+        ln_l_max = np.max(log_ls)
+
+        log_diff = log_ls - ln_l_max
+        integrand = np.exp(log_diff)
+
+        integral = integral_3d(integrand, rK_axis, M_axis, Psi_axis)
+
+        log_Z = ln_l_max + np.log(integral)
+
+        log_posterior = log_ls - log_Z
+
+        posterior = np.exp(log_posterior)
+        
+        return posterior, log_posterior
     
     rs = data[:,0]
     vs = data[:,1]
@@ -290,26 +346,25 @@ def initialise_proposal_covariance(M_min, M_max, Psi_min, Psi_max, rK_min, rK_ma
             
             log_ls[i] = np.sum(np.log(ls))
             
+    posterior, log_posterior = calculate_posterior(Ms, RKs, PSIS, log_ls)
+
+    theta_bar = calculate_mean(Ms, RKs, PSIS, posterior)
     
-    mode_idx = np.where(log_ls == np.max(log_ls))[0][0]
-    
-    covariance = 0.01*np.identity(3)
-    covariance[0,0] *= Ms[mode_idx]  # M0
-    covariance[1,1] *= RKs[mode_idx]  # rK
-    covariance[2,2] *= PSIS[mode_idx]  # Psi
+    covariance = calculate_covariance(Ms, RKs, PSIS, posterior, theta_bar)
     
     return covariance
 
 G = 4.3009e-3
 
-M_true = 10**6.05
-rK_true = 0.51
-Psi_true = 8.6
+M_true = 500
+rK_true = 1.2
+Psi_true = 5
 
 n_stars = 10000
 nsamp = 100000
 nsamp_tune = 10000
-npoints_axis = 10
+npoints_axis = 100
+nchains = 10
 
 target_acceptance_rate = 0.236
 acceptance_rate_tol = 0.02
@@ -321,8 +376,8 @@ rK_min = 0.5
 Psi_max = 9
 Psi_min = 1
 
-prior_args = np.array([M_max, M_min, rK_max, rK_min, Psi_max, Psi_min])
 initial_parameters =  np.array([M_true, rK_true, Psi_true]) + np.array([0,0,0])
+prior_args = np.array([M_max, M_min, rK_max, rK_min, Psi_max, Psi_min])
 
 print('Generating data...')
 data = generate_data(n_stars, M_true, rK_true, Psi_true)
@@ -333,6 +388,20 @@ print('...done.')
 print('Tuning covariance...')
 covariance = tune_covariance(data, initial_parameters, cov0, nsamp_tune, prior_args, target_acceptance_rate, acceptance_rate_tol)
 print('..done.')
-print('Running MH algorithm...')
-acceptance_rate = metropolis_sampling(data, initial_parameters, covariance, nsamp, prior_args, save_samples = True)
-print('done.')
+
+for idx in range(nchains):
+    
+    initial_set = False
+    while(initial_set == False):  
+        
+        initial_parameters = np.random.multivariate_normal(mean = [M_true, rK_true, Psi_true], cov = cov0)
+        
+        log_p = log_prior(initial_parameters, prior_args)
+        log_l = log_likelihood(initial_parameters, data)
+        
+        if((log_p != -np.inf)&(log_l!=-np.inf)):
+            initial_set = True
+            
+    print('Running MH algorithm...')
+    acceptance_rate = metropolis_sampling(data, initial_parameters, covariance, nsamp, prior_args, idx, save_samples = True)
+    print('done.')

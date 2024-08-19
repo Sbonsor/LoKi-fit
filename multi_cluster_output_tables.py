@@ -123,7 +123,7 @@ def output_table(data_file, cluster_params_file, idx):
 
 fname = 'multi_cluster_run.pkl'
 cluster_params_file = 'Data/asu.tsv'
-idx = 2 # 0=M, 1=rK, 2=Psi
+idx = 0 # 0=M, 1=rK, 2=Psi
 
 ### Physical constants.
 G = 4.3009e-3

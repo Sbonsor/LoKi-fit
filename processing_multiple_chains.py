@@ -24,9 +24,11 @@ def construct_cov_array(matrix1, matrix2 ):
         
     return cov_array
 
-base_path = 'Data/SAMPLES_run_12_'
-indices = [0,1,3]
-labels = ['rho_0', 'rK', 'Psi']
+#base_path = 'Data/SAMPLES_run_10_'
+#base_path = 'Data/SAMPLES_MCMC_auto_proposal_M_500_rK_1.2_Psi_5_'
+base_path = 'Data/SAMPLES_MCMC_auto_proposal_M_500_rK_1.2_Psi_5_non_diag_'
+indices = [0,1,2]
+labels = ['M', 'rK', 'Psi']
 m = 10
 
 samples = np.loadtxt(f'{base_path}{0}.txt')

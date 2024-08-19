@@ -23,7 +23,7 @@ class LoKi_samp:
         self.set_masses()
         
         if(self.scale_nbody):
-            self.scale_output()
+            self.scale_nody()
         
         if (self.print):
             self.print_results()

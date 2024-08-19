@@ -117,8 +117,8 @@ from dimensional_data_generation import dimensional_data_generation
 N_values = np.logspace(np.log10(1000), np.log10(100000), 6, dtype = int)
 n_reps = 10
 Psi = 5
-mu = 0.3
-epsilon = 0.1
+mu = 0
+epsilon = 1e-6
 M = 500
 rK = 1.2
 
@@ -144,6 +144,7 @@ ax1.set_xlabel('N')
 ax1.set_ylabel('$Q_{vir}$')
 ax1.set_xscale('log')
 ax1.axhline(y = 0.5, linestyle = '--', color = 'k')
+ax1.set_title(f'$(\\Psi, r_K, M, \\epsilon, \\mu)$ = ({Psi}, {rK}, {M}, {epsilon}, {mu})')
 
 fig2,ax2 = plt.subplots(1,1)
 ax2.scatter(Ns, abs(deviation_in_virial_ratio), marker = 'x')
@@ -151,12 +152,14 @@ ax2.set_xlabel('N')
 ax2.set_ylabel('$Q_{vir}$ deviation')
 ax2.set_xscale('log')
 ax2.set_yscale('log')
+ax2.set_title(f'$(\\Psi, r_K, M, \\epsilon, \\mu)$ = ({Psi}, {rK}, {M}, {epsilon}, {mu})')
 
 
 
 
 
-
+# sampling = dimensional_data_generation(100000, M, rK, Psi, mu, epsilon, save = False, validate = True)
+# print(sampling.virial_ratio)
 
 
 

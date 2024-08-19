@@ -44,7 +44,6 @@ def log_likelihood(theta, rs, vs, r1, r2, model, Mhat):
     r = model.rhat * rK
     mass_diff = np.interp(r2, xp = r, fp = Mass_profile) - np.interp(r1, xp = r, fp = Mass_profile)
     
-    #return -(N/M)*mass_diff + np.sum(log_ls)
     return np.sum(log_ls)
 
 def r_v(data):
@@ -288,7 +287,7 @@ def single_trial(M_true, rK_true, Psi_true, N_stars, models, region, M_axis, rK_
     return rs, vs, allowed_region, log_ls, posterior, mode, theta_bar, covariance
 
 ### List of cluster to fit.
-clusters = ['MW-NGC104', 'MW-PAL5','MW-NGC6229','MW-PAL3', 'MW-NGC7492', 'MW-NGC6809', 'MW-NGC6553', 'MW-NGC6402', 'MW-NGC5139', 'MW-NGC2419']
+clusters = ['MW-NGC104', 'MW-PAL5','MW-NGC6229','MW-PAL3', 'MW-NGC7492', 'MW-NGC6809', 'MW-NGC6553', 'MW-NGC6402', 'MW-NGC5139', 'MW-NGC2419','MW-NGC1904']
 
 ### Granularity of axes
 npoints_axis = 100
